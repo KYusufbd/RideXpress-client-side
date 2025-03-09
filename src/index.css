@@ -1,2 +1,74 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @plugin "daisyui";
+
+@plugin 'daisyui/theme' {
+  name: "ridexpress-theme";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-base-100: oklch(98% 0.02 250); /* Light background */
+  --color-base-200: oklch(95% 0.03 250);
+  --color-base-300: oklch(92% 0.04 250);
+  --color-base-content: oklch(20% 0.05 250); /* Dark text */
+
+  /* RideXpress Brand Colors */
+  --color-primary: oklch(55% 0.3 340); /* Deep Burgundy */
+  --color-primary-content: oklch(98% 0.01 340);
+  --color-secondary: oklch(55% 0.25 260); /* Dark Blue */
+  --color-secondary-content: oklch(98% 0.01 260);
+  --color-accent: oklch(65% 0.25 160); /* Green Accent */
+  --color-accent-content: oklch(98% 0.01 160);
+
+  /* Neutral & Utility Colors */
+  --color-neutral: oklch(50% 0.05 250);
+  --color-neutral-content: oklch(98% 0.01 250);
+  --color-info: oklch(70% 0.2 220);
+  --color-success: oklch(65% 0.25 140);
+  --color-warning: oklch(80% 0.25 80);
+  --color-error: oklch(65% 0.3 30);
+
+  /* Border Radius & Effects */
+  --radius-selector: 1rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+@plugin 'daisyui/theme' {
+  name: "ridexpress-dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: dark;
+
+  --color-base-100: oklch(12% 0.02 250); /* Dark background */
+  --color-base-200: oklch(15% 0.03 250);
+  --color-base-300: oklch(18% 0.04 250);
+  --color-base-content: oklch(90% 0.05 250); /* Light text for readability */
+
+  /* RideXpress Brand Colors - Dark Mode Adjustments */
+  --color-primary: oklch(65% 0.3 340); /* Brighter Burgundy */
+  --color-primary-content: oklch(10% 0.01 340);
+  --color-secondary: oklch(70% 0.25 260); /* Vibrant Dark Blue */
+  --color-secondary-content: oklch(10% 0.01 260);
+  --color-accent: oklch(75% 0.3 160); /* Slightly brighter accent */
+  --color-accent-content: oklch(10% 0.01 160);
+
+  /* Neutral & Utility Colors */
+  --color-neutral: oklch(30% 0.05 250);
+  --color-neutral-content: oklch(95% 0.01 250);
+  --color-info: oklch(80% 0.2 220);
+  --color-success: oklch(75% 0.3 140);
+  --color-warning: oklch(85% 0.3 80);
+  --color-error: oklch(75% 0.35 30);
+
+  /* Border Radius & Effects */
+  --radius-selector: 1rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --border: 1px;
+  --depth: 2; /* Slightly deeper shadows for a lifted look */
+  --noise: 0;
+}
