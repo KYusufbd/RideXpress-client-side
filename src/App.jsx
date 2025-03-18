@@ -1,10 +1,17 @@
+import { useState } from "react";
 import ThemeToggle from "./components/ThemeToggle";
 
 function App() {
+  const [theme, setTheme] = useState('light')
+
+  // Theme toggle function:
+  const themeToggle = () => {
+    theme === 'light' ? setTheme('dark') : setTheme('light');
+  }
   return (
-    <>
-      <ThemeToggle />
-      <div className="bg-white min-h-screen">
+    <div data-theme={theme}>
+      <ThemeToggle themeToggle={themeToggle}/>
+      <div className="bg-base-100 min-h-screen">
         <h1 className="text-5xl text-center text-primary">
           Welcome to RideXpress
         </h1>
@@ -30,7 +37,7 @@ function App() {
           Welcome to RideXpress
         </h1>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -2,7 +2,7 @@
 @plugin "daisyui";
 
 @plugin 'daisyui/theme' {
-  name: "ridexpress-theme";
+  name: "ridexpress-light";
   default: true;
   prefersdark: false;
   color-scheme: light;

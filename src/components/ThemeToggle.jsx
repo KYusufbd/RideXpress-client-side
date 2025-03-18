@@ -1,4 +1,4 @@
-const ThemeToggle = () => {
+const ThemeToggle = ({themeToggle}) => {
   return (
     <div>
       <label className="flex cursor-pointer gap-2">
@@ -20,6 +20,7 @@ const ThemeToggle = () => {
           type="checkbox"
           value="synthwave"
           className="toggle theme-controller"
+          onChange={themeToggle}
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
