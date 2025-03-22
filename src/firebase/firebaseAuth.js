@@ -1,5 +1,5 @@
-import 'dotenv';
-import { getAuth } from 'firebase/auth';
+import "dotenv";
+import { getAuth } from "firebase/auth";
 
 const fbConfig = import.meta.env;
 
@@ -10,16 +10,16 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: fbConfig.VITE_apiKey,
-    authDomain: fbConfig.VITE_authDomain,
-    projectId: fbConfig.VITE_projectId,
-    storageBucket: fbConfig.VITE_storageBucket,
-    messagingSenderId: fbConfig.VITE_messagingSenderId,
-    appId: fbConfig.VITE_appId,
-  };
+  apiKey: fbConfig.VITE_apiKey,
+  authDomain: fbConfig.VITE_authDomain,
+  projectId: fbConfig.VITE_projectId,
+  storageBucket: fbConfig.VITE_storageBucket,
+  messagingSenderId: fbConfig.VITE_messagingSenderId,
+  appId: fbConfig.VITE_appId,
+};
 
-  const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-  const auth = getAuth(app);
+const auth = getAuth(app);
 
-  export default auth;
+export default auth;

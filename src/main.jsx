@@ -10,6 +10,10 @@ import AddCar from "./pages/AddCar.jsx";
 import MyCars from "./pages/MyCars.jsx";
 import MyBookings from "./pages/MyBookings.jsx";
 import AuthProvider from "./firebase/AuthProvider.jsx";
+import axios from "axios";
+
+// Set base URL of Axios
+axios.defaults.baseURL = "http://localhost:5000/";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

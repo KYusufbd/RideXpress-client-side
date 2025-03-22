@@ -1,7 +1,11 @@
 import { Link, NavLink } from "react-router";
 import ThemeToggle from "./ThemeToggle";
+import { useContext } from "react";
+import AuthContext from "../contexts/AuthContext";
 
-const Navbar = ({themeToggle}) => {
+const Navbar = ({ themeToggle }) => {
+  const { user, logout } = useContext(AuthContext);
+
   const navMenu = (
     <>
       <li>
@@ -12,6 +16,7 @@ const Navbar = ({themeToggle}) => {
       </li>
     </>
   );
+
   return (
     <div className="w-full bg-base-100 sticky top-0 z-40">
       <nav className="navbar shadow-sm w-[1440px] max-w-full mx-auto">
@@ -53,10 +58,17 @@ const Navbar = ({themeToggle}) => {
         </div>
         <div className="navbar-end flex flex-row gap-1">
           <>
-            <NavLink to="/login" className="btn">
-              Login
-            </NavLink>
-            <ThemeToggle themeToggle={themeToggle}/>
+            {!user && (
+              <NavLink to="/login" className="btn btn-secondary">
+                Login
+              </NavLink>
+            )}
+            {user && (
+              <button onClick={logout} className="btn btn-secondary">
+                Log Out
+              </button>
+            )}
+            <ThemeToggle themeToggle={themeToggle} />
           </>
         </div>
       </nav>

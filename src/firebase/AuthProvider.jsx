@@ -1,9 +1,17 @@
 import AuthContext from "../contexts/AuthContext";
-import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
 
 import auth from "./firebaseAuth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -11,6 +19,25 @@ const AuthProvider = ({ children }) => {
   // Google Auth Provider
   const provider = new GoogleAuthProvider();
 
+  // Post user function
+  const postUser = (userObj, token) => {
+    axios
+      .post(
+        "/users",
+        {
+          user: userObj,
+        },
+        {
+          headers: {
+            authorization: token,
+          },
+        },
+      )
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
+  };
+
+  // Log in with google function
   const loginWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -21,6 +48,14 @@ const AuthProvider = ({ children }) => {
         const user = result.user;
         // IdP data available using getAdditionalUserInfo(result)
         setUser(user);
+        const userObj = {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user?.photoURL,
+        };
+
+        const token = user.accessToken;
+        postUser(userObj, token);
       })
       .catch((error) => {
         // Handle Errors here.
@@ -31,7 +66,7 @@ const AuthProvider = ({ children }) => {
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
         // ...
-        console.log(errorCode, errorMessage, email, credential)
+        console.log(errorCode, errorMessage, email, credential);
       });
   };
 
@@ -68,10 +103,33 @@ const AuthProvider = ({ children }) => {
       });
   };
 
+  //   Get current user:
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      //   setLoading(false);
+      return unsubscribe();
+    });
+  }, []);
+
+  // Sign out
+  const logout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        setUser(null);
+      })
+      .catch((error) => {
+        // An error happened.
+        console.log(error);
+      });
+  };
+
   const authInfo = {
     user,
     loginWithGoogle,
-    register
+    register,
+    logout,
   };
 
   return (

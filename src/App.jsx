@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ThemeToggle from "./components/ThemeToggle";
 import Navbar from "./components/Navbar";
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import Footer from "./components/Footer";
 
 function App() {
   const [theme, setTheme] = useState("light");
+
+  // Function to scroll to top when the route is changed.
+  const location = useLocation();
+  useEffect(() => {
+    scrollTo(0, 0);
+  }, [location]);
 
   // Theme toggle function:
   const themeToggle = () => {
