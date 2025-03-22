@@ -14,6 +14,19 @@ const Navbar = ({ themeToggle }) => {
       <li>
         <NavLink to="/cars">Available Cars</NavLink>
       </li>
+      {user && (
+        <>
+          <li>
+            <NavLink to="/add-car">Add Car</NavLink>
+          </li>
+          <li>
+            <NavLink to="/my-cars">My Cars</NavLink>
+          </li>
+          <li>
+            <NavLink to="/my-bookings">My Bookings</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
 
@@ -48,9 +61,10 @@ const Navbar = ({ themeToggle }) => {
           </div>
           <Link
             to="/"
-            className="flex flex-row gap-2 items-center cursor-pointer font-bold text-2xl"
+            className="flex items-center cursor-pointer font-bold text-2xl"
           >
-            <img className="h-10 rounded-lg" src="/logo.png" />
+            <img className="hidden sm:inline h-10 rounded-lg" src="/logo.png" />
+            <img className="sm:hidden h-10 rounded-lg" src="/logo-text.png" />
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
