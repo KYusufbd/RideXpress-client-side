@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import AuthContext from "../contexts/AuthContext";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
@@ -8,7 +8,8 @@ import { toast } from "react-toastify";
 
 const Login = () => {
   const [warning, setWarning] = useState(false);
-  const { loginWithGoogle, register, signIn, user } = useContext(AuthContext);
+  const { loginWithGoogle, register, signIn, user, resetPassword } =
+    useContext(AuthContext);
 
   // Handle Login function
   const handleLogin = (e) => {
@@ -43,6 +44,14 @@ const Login = () => {
       minLowercase: 1,
       minUppercase: 1,
     });
+  };
+
+  // Handle password reset function:
+  const handlePasswordReset = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    resetPassword(email);
+    document.getElementById('close-modal').click();
   };
 
   // Navigating logged in users to home page.
@@ -91,13 +100,18 @@ const Login = () => {
                       placeholder="Password"
                     />
                     <div>
-                      <a className="link link-hover">Forgot password?</a>
+                      <button
+                        className="link"
+                        onClick={() =>
+                          document.getElementById("my_modal_2").showModal()
+                        }
+                      >
+                        Forgot password?
+                      </button>
                     </div>
                     <button className="btn btn-neutral mt-4">Login</button>
                   </form>
-                  <p>
-                    Don&apos;t have an account? Register instead.
-                  </p>
+                  <p>Don&apos;t have an account? Register instead.</p>
                   <p className="text-center -mb-4">Or</p>
                   <button
                     className="btn btn-primary mt-4"
@@ -153,9 +167,7 @@ const Login = () => {
                     )}
                     <button className="btn btn-neutral mt-4">Register</button>
                   </form>
-                  <p>
-                    Already have an account? Login instead.
-                  </p>
+                  <p>Already have an account? Login instead.</p>
                   <p className="text-center -mb-4">Or</p>
                   <button
                     className="btn btn-primary mt-4"
@@ -168,6 +180,21 @@ const Login = () => {
             </TabPanel>
           </Tabs>
         </div>
+        <dialog id="my_modal_2" className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg text-secondary">Forgot password?</h3>
+            <p className="py-4 text-base opacity-75">
+              Please enter your email address to receive password reset email.
+            </p>
+            <form className="flex flex-col gap-3" onSubmit={handlePasswordReset}>
+              <input name="email" type="email" placeholder="Plese enter your email here" required className="w-full px-1 py-1.5 outline-1 rounded-sm" />
+              <button className="btn btn-secondary">Submit</button>
+            </form>
+          </div>
+          <form method="dialog" className="modal-backdrop">
+            <button id="close-modal">close</button>
+          </form>
+        </dialog>
       </div>
     </>
   );

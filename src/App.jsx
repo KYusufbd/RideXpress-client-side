@@ -3,6 +3,7 @@ import ThemeToggle from "./components/ThemeToggle";
 import Navbar from "./components/Navbar";
 import { Outlet, useLocation } from "react-router";
 import Footer from "./components/Footer";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [theme, setTheme] = useState("light");
@@ -22,6 +23,7 @@ function App() {
       <Navbar themeToggle={themeToggle} />
       <main className="min-h-screen">
         <Outlet />
+        <ToastContainer />
       </main>
       <Footer />
     </div>
