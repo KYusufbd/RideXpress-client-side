@@ -164,6 +164,7 @@ const AuthProvider = ({ children }) => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
+        axios.get('/logout');
         toast("Logged out successfully!");
         setUser(null);
       })
