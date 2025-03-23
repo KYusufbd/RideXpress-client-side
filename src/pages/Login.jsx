@@ -100,14 +100,15 @@ const Login = () => {
                       placeholder="Password"
                     />
                     <div>
-                      <button
+                      <p
                         className="link"
+                        tabIndex={0}
                         onClick={() =>
                           document.getElementById("my_modal_2").showModal()
                         }
                       >
                         Forgot password?
-                      </button>
+                      </p>
                     </div>
                     <button className="btn btn-neutral mt-4">Login</button>
                   </form>

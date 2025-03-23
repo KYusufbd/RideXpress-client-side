@@ -39,7 +39,7 @@ const AuthProvider = ({ children }) => {
       .catch((err) => console.log(err));
   };
 
-  // Log in with google function
+  // Log in with google
   const loginWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -117,7 +117,16 @@ const AuthProvider = ({ children }) => {
         // Update user
         const user = userCredential.user;
         setUser(user);
-        // ...
+
+        // User login to server
+        const userObj = {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user?.photoURL,
+        };
+
+        const token = user.accessToken;
+        postUser(userObj, token);
       })
       .catch((error) => {
         const errorCode = error.code;
