@@ -14,6 +14,8 @@ import axios from "axios";
 
 // Set base URL of Axios
 axios.defaults.baseURL = "http://localhost:5000/";
+// Set Axios withCredentials to true by default
+axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

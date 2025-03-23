@@ -51,7 +51,7 @@ const Login = () => {
     e.preventDefault();
     const email = e.target.email.value;
     resetPassword(email);
-    document.getElementById('close-modal').click();
+    document.getElementById("close-modal").click();
   };
 
   // Navigating logged in users to home page.
@@ -74,7 +74,7 @@ const Login = () => {
               road with ease!
             </p>
           </div>
-          <Tabs>
+          <Tabs className="card w-full max-w-sm">
             <TabList>
               <Tab>Login</Tab>
               <Tab>Register</Tab>
@@ -182,12 +182,23 @@ const Login = () => {
         </div>
         <dialog id="my_modal_2" className="modal">
           <div className="modal-box">
-            <h3 className="font-bold text-lg text-secondary">Forgot password?</h3>
+            <h3 className="font-bold text-lg text-secondary">
+              Forgot password?
+            </h3>
             <p className="py-4 text-base opacity-75">
               Please enter your email address to receive password reset email.
             </p>
-            <form className="flex flex-col gap-3" onSubmit={handlePasswordReset}>
-              <input name="email" type="email" placeholder="Plese enter your email here" required className="w-full px-1 py-1.5 outline-1 rounded-sm" />
+            <form
+              className="flex flex-col gap-3"
+              onSubmit={handlePasswordReset}
+            >
+              <input
+                name="email"
+                type="email"
+                placeholder="Plese enter your email here"
+                required
+                className="w-full px-1 py-1.5 outline-1 rounded-sm"
+              />
               <button className="btn btn-secondary">Submit</button>
             </form>
           </div>

@@ -31,7 +31,7 @@ const AuthProvider = ({ children }) => {
         },
         {
           headers: {
-            authorization: token,
+            Authorization: token,
           },
         },
       )
