@@ -56,12 +56,13 @@ const Login = () => {
       <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content flex-col lg:flex-row max-w-6xl">
           <div className="text-center lg:text-left px-4 md:px-8 lg:px-12">
-            <h1 className="text-3xl lg:text-5xl md:text-4xl font-bold">
-              Login now!
+            <h1 className="text-3xl lg:text-5xl md:text-4xl font-bold max-w-100">
+              Get Started with RideXpress!
             </h1>
-            <p className="py-6 text-lg opacity-80 max-w-160 font-medium">
-              Welcome back, gamer! Log in to explore, review, and share your
-              thoughts on your favorite games.
+            <p className="py-6 text-lg opacity-80 max-w-120 font-medium">
+              Book your dream ride, manage rentals, and explore the best
+              deals—all in one place. Log in or create an account to hit the
+              road with ease!
             </p>
           </div>
           <Tabs>
@@ -95,11 +96,7 @@ const Login = () => {
                     <button className="btn btn-neutral mt-4">Login</button>
                   </form>
                   <p>
-                    Don&apos;t have an account? Register{" "}
-                    <Link className="hover:link" to="/register">
-                      here
-                    </Link>
-                    .
+                    Don&apos;t have an account? Register instead.
                   </p>
                   <p className="text-center -mb-4">Or</p>
                   <button
@@ -157,11 +154,7 @@ const Login = () => {
                     <button className="btn btn-neutral mt-4">Register</button>
                   </form>
                   <p>
-                    Already have an account? Login{" "}
-                    <Link className="hover:link" to="/login">
-                      here
-                    </Link>
-                    .
+                    Already have an account? Login instead.
                   </p>
                   <p className="text-center -mb-4">Or</p>
                   <button
