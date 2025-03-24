@@ -54,7 +54,7 @@ const Navbar = ({ themeToggle }) => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className="menu menu-lg dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow text-primary"
             >
               {navMenu}
             </ul>
@@ -68,7 +68,7 @@ const Navbar = ({ themeToggle }) => {
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-lg">{navMenu}</ul>
+          <ul className="menu menu-horizontal px-1 text-lg text-primary font-medium">{navMenu}</ul>
         </div>
         <div className="navbar-end flex flex-row gap-1">
           <>
