@@ -9,6 +9,7 @@ import Login from "./pages/Login.jsx";
 import AddCar from "./pages/AddCar.jsx";
 import MyCars from "./pages/MyCars.jsx";
 import MyBookings from "./pages/MyBookings.jsx";
+import CarDetails from "./pages/CarDetails.jsx";
 import AuthProvider from "./firebase/AuthProvider.jsx";
 import axios from "axios";
 
@@ -25,6 +26,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
             <Route path="/cars" element={<AvailableCars />} />
+            <Route path="/cars/:id" element={<CarDetails />} />
             <Route path="/login" element={<Login />} />
             <Route path="/add-car" element={<AddCar />} />
             <Route path="/my-cars" element={<MyCars />} />

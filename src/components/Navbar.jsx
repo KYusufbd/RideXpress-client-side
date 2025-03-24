@@ -31,8 +31,8 @@ const Navbar = ({ themeToggle }) => {
   );
 
   return (
-    <div className="w-full bg-base-100 sticky top-0 z-40">
-      <nav className="navbar shadow-sm w-[1440px] max-w-full mx-auto">
+    <div className="w-full bg-base-200 sticky top-0 z-40">
+      <nav className="navbar shadow-sm w-360 max-w-full mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
