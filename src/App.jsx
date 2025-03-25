@@ -22,12 +22,15 @@ function App() {
 
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [listView, setListView] = useState(false);
 
   const data = {
     cars,
     setCars,
     loading,
     setLoading,
+    listView,
+    setListView
   };
 
   return (

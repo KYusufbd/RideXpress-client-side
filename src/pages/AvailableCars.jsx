@@ -6,7 +6,7 @@ import { HiViewGrid } from "react-icons/hi";
 import { HiViewList } from "react-icons/hi";
 
 const AvailableCars = () => {
-  const { cars, setCars, setLoading } = useContext(DataContext);
+  const { cars, setCars, setLoading, listView, setListView } = useContext(DataContext);
 
   // Fetch cars data
   useEffect(() => {
@@ -25,9 +25,7 @@ const AvailableCars = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [listView, setListView] = useState(false);
-
-  const viewToggle = () => {
+    const viewToggle = () => {
     setListView(!listView);
   };
 
@@ -156,7 +154,7 @@ const AvailableCars = () => {
                       <th>
                         <Link
                           to={`/cars/${car._id}`}
-                          className="btn btn-primary"
+                          className="btn btn-primary w-max"
                         >
                           Book Now
                         </Link>

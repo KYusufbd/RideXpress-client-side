@@ -72,3 +72,7 @@
   --depth: 2; /* Slightly deeper shadows for a lifted look */
   --noise: 0;
 }
+
+.navbar .active {
+  background-color: var(--color-accent);
+}
