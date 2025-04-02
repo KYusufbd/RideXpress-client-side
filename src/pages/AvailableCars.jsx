@@ -7,12 +7,13 @@ import { HiViewList } from "react-icons/hi";
 
 const AvailableCars = () => {
   const { cars, setCars, setLoading, listView, setListView } = useContext(DataContext);
+  const [query, setQuery] = useState("");
 
   // Fetch cars data
   useEffect(() => {
     setLoading(true);
     axios
-      .get("/cars")
+      .get(`/cars${query ? `?search=${query}` : ""}`)
       .then((res) => {
         setCars(res.data);
       })
@@ -23,7 +24,7 @@ const AvailableCars = () => {
         setLoading(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [query]);
 
     const viewToggle = () => {
     setListView(!listView);
@@ -32,17 +33,20 @@ const AvailableCars = () => {
   return (
     <div className="w-full bg-base-300 min-h-screen my-0">
       <div className="w-360 max-w-full mx-auto flex flex-col gap-4 pb-4">
-        <div className="flex flex-row justify-between p-3 bg-base-100">
+        {/* Top bar */}
+        <div className="flex flex-row flex-wrap gap-2 justify-between p-3 bg-base-100">
           <h1 className="text-3xl font-bold text-secondary text-center">
             All Available Cars
           </h1>
-          <div className="flex flex-row">
+          <div className="flex flex-row w-full sm:w-fit justify-between gap-2">
+            <input type="text" placeholder="Search by location on model" onChange={(e)=> setQuery(e.target.value)} className="w-60 border-2 border-primary rounded-sm px-2" />
             <button onClick={viewToggle} className="btn btn-ghost p-1">
               {listView && <HiViewGrid size="2rem" />}
               {!listView && <HiViewList size="2rem" />}
             </button>
           </div>
         </div>
+        {/* Cars list */}
         {!listView && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 px-3">
             {cars.map((car) => {
@@ -164,6 +168,17 @@ const AvailableCars = () => {
                 })}
               </tbody>
             </table>
+          </div>
+        )}
+        {/* No cars found */}
+        {cars.length === 0 && (
+          <div className="flex flex-col items-center justify-center gap-4 h-96">
+            <h1 className="text-3xl font-bold text-secondary text-center">
+              No Cars Found
+            </h1>
+            <Link to="/" className="btn btn-primary w-max">
+              Go Back
+            </Link>
           </div>
         )}
       </div>
