@@ -117,11 +117,11 @@ const AvailableCars = () => {
                   return (
                     <tr key={cars.indexOf(car)}>
                       <td>
-                        <div className="w-42 md:w-58 lg:w-72 overflow-hidden rounded-xl">
+                        <div className="w-42 md:w-58 lg:w-72 aspect-video overflow-hidden rounded-xl flex items-center justify-center bg-base-100 shadow-2xl">
                           <img
                             src={car.imageUrl}
                             alt={car.model}
-                            className="w-full"
+                            className="min-w-full min-h-full"
                           />
                         </div>
                       </td>
