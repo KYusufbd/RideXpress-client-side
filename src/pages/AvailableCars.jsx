@@ -4,16 +4,20 @@ import { Link } from "react-router";
 import DataContext from "../contexts/DataContext";
 import { HiViewGrid } from "react-icons/hi";
 import { HiViewList } from "react-icons/hi";
+import { BiSortAlt2 } from "react-icons/bi";
 
 const AvailableCars = () => {
-  const { cars, setCars, setLoading, listView, setListView } = useContext(DataContext);
+  const { cars, setCars, setLoading, listView, setListView } =
+    useContext(DataContext);
   const [query, setQuery] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
 
   // Fetch cars data
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`/cars${query ? `?search=${query}` : ""}`)
+      .get(`/cars${query || sortBy && '?'}${query ? `search=${query}${sortBy ? '&' : ''}` : ""}${sortBy ? `sort-by=${sortBy}${`&sort-order=${sortOrder}`}` : ""}`)
       .then((res) => {
         setCars(res.data);
       })
@@ -24,9 +28,9 @@ const AvailableCars = () => {
         setLoading(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+  }, [query, sortBy, sortOrder]);
 
-    const viewToggle = () => {
+  const viewToggle = () => {
     setListView(!listView);
   };
 
@@ -39,10 +43,45 @@ const AvailableCars = () => {
             All Available Cars
           </h1>
           <div className="flex flex-row w-full sm:w-fit justify-between gap-2">
-            <input type="text" placeholder="Search by location on model" onChange={(e)=> setQuery(e.target.value)} className="w-60 border-2 border-primary rounded-sm px-2" />
+            <input
+              type="text"
+              placeholder="Search by location on model"
+              onChange={(e) => setQuery(e.target.value)}
+              className="w-60 border-2 border-primary rounded-sm px-2"
+            />
+            <div className="dropdown">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost w-fit p-0"
+              >
+                <BiSortAlt2 size="1rem" />
+                Sort
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content -ml-10 menu w-fit bg-base-100 rounded-box z-1 p-2 shadow-sm"
+              >
+                <li>
+                  <select name="sort-by" defaultValue="" id="" onChange={(e) => setSortBy(e.target.value)}>
+                    <option value="" disabled>
+                      Sort By
+                    </option>
+                    <option value="date-added">Date Added</option>
+                    <option value="price">Price</option>
+                  </select>
+                </li>
+                <li>
+                  <select name="sort-order" defaultValue={"asc"} id="" onChange={(e) => setSortOrder(e.target.value)}>
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                  </select>
+                </li>
+              </ul>
+            </div>
             <button onClick={viewToggle} className="btn btn-ghost p-1">
-              {listView && <HiViewGrid size="2rem" />}
-              {!listView && <HiViewList size="2rem" />}
+              {listView && <HiViewGrid size="1.5rem" />}
+              {!listView && <HiViewList size="1.5rem" />}
             </button>
           </div>
         </div>
