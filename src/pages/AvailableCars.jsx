@@ -17,7 +17,7 @@ const AvailableCars = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`/cars${query || sortBy && '?'}${query ? `search=${query}${sortBy ? '&' : ''}` : ""}${sortBy ? `sort-by=${sortBy}${`&sort-order=${sortOrder}`}` : ""}`)
+      .get(`/cars${query || sortBy && '?'}${query ? `search=${query}${sortBy ? '&' : ''}` : ""}${sortBy ? `sort_by=${sortBy}${`&sort_order=${sortOrder}`}` : ""}`)
       .then((res) => {
         setCars(res.data);
       })
