@@ -17,7 +17,7 @@ const AvailableCars = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`/cars${query || sortBy && '?'}${query ? `search=${query}${sortBy ? '&' : ''}` : ""}${sortBy ? `sort_by=${sortBy}${`&sort_order=${sortOrder}`}` : ""}`)
+      .get(`/cars${query || sortBy ? '?' : ''}${query ? `search=${query}${sortBy ? '&' : ''}` : ""}${sortBy ? `sort_by=${sortBy}${`&sort_order=${sortOrder}`}` : ""}`)
       .then((res) => {
         setCars(res.data);
       })
@@ -67,8 +67,8 @@ const AvailableCars = () => {
                     <option value="" disabled>
                       Sort By
                     </option>
-                    <option value="date-added">Date Added</option>
-                    <option value="price">Price</option>
+                    <option value="dateAdded">Date Added</option>
+                    <option value="dailyRentalPrice">Price</option>
                   </select>
                 </li>
                 <li>
