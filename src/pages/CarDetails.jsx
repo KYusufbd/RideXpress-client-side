@@ -68,13 +68,18 @@ const CarDetails = () => {
               <ul className="text-sm italic pl-1 opacity-70">
                 {car?.features.map((feature) => {
                   return (
-                    <li className="mt-1" key={car?.features.indexOf(feature)}>{feature}</li>
+                    <li className="mt-1" key={car?.features.indexOf(feature)}>
+                      {feature}
+                    </li>
                   );
                 })}
               </ul>
             </div>
             <div className="card-actions">
-              <button onClick={handleBooking} className={`btn btn-primary ${car?.availability ? '' : 'btn-disabled'} w-full mt-4`}>
+              <button
+                onClick={handleBooking}
+                className={`btn btn-primary ${car?.availability ? "" : "btn-disabled"} w-full mt-4`}
+              >
                 Book Now
               </button>
             </div>

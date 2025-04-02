@@ -7,7 +7,7 @@ import { HiViewList } from "react-icons/hi";
 import { BiSortAlt2 } from "react-icons/bi";
 
 const AvailableCars = () => {
-  const { cars, setCars, setLoading, listView, setListView } =
+  const { cars, setCars, loading, setLoading, listView, setListView } =
     useContext(DataContext);
   const [query, setQuery] = useState("");
   const [sortBy, setSortBy] = useState("");
@@ -17,7 +17,9 @@ const AvailableCars = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`/cars${query || sortBy ? '?' : ''}${query ? `search=${query}${sortBy ? '&' : ''}` : ""}${sortBy ? `sort_by=${sortBy}${`&sort_order=${sortOrder}`}` : ""}`)
+      .get(
+        `/cars${query || sortBy ? "?" : ""}${query ? `search=${query}${sortBy ? "&" : ""}` : ""}${sortBy ? `sort_by=${sortBy}${`&sort_order=${sortOrder}`}` : ""}`,
+      )
       .then((res) => {
         setCars(res.data);
       })
@@ -63,7 +65,12 @@ const AvailableCars = () => {
                 className="dropdown-content -ml-10 menu w-fit bg-base-100 rounded-box z-1 p-2 shadow-sm"
               >
                 <li>
-                  <select name="sort-by" defaultValue="" id="" onChange={(e) => setSortBy(e.target.value)}>
+                  <select
+                    name="sort-by"
+                    defaultValue=""
+                    id=""
+                    onChange={(e) => setSortBy(e.target.value)}
+                  >
                     <option value="" disabled>
                       Sort By
                     </option>
@@ -72,7 +79,12 @@ const AvailableCars = () => {
                   </select>
                 </li>
                 <li>
-                  <select name="sort-order" defaultValue={"asc"} id="" onChange={(e) => setSortOrder(e.target.value)}>
+                  <select
+                    name="sort-order"
+                    defaultValue={"asc"}
+                    id=""
+                    onChange={(e) => setSortOrder(e.target.value)}
+                  >
                     <option value="asc">Ascending</option>
                     <option value="desc">Descending</option>
                   </select>
@@ -85,7 +97,7 @@ const AvailableCars = () => {
             </button>
           </div>
         </div>
-        
+
         {/* Cars list */}
         {!listView && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 px-3">
@@ -106,28 +118,19 @@ const AvailableCars = () => {
                     <div className="flex flex-col gap-1">
                       <h4 className="text-xl font-medium">{car.model}</h4>
                       <p className="opacity-70">Location: {car.location}</p>
-                      {car.availability ? (
-                        <div className="btn btn-success w-fit px-2 h-6 mt-2">
-                          Avilable
-                        </div>
-                      ) : (
-                        <div className="btn btn-warning w-fit px-2 h-6 mt-2">
-                          Not Available
-                        </div>
-                      )}
-                      <div className="w-full border-1 bg-base-200 px-2 py-1 mt-4 opacity-70 rounded-sm">
-                        <div className="w-full bg-base-300 text-primary">
-                          <h5>Features:</h5>
-                        </div>
-                        <ul className="text-sm italic pl-1">
-                          {car.features.map((feature) => {
-                            return (
-                              <li key={car.features.indexOf(feature)}>
-                                {feature}
-                              </li>
-                            );
-                          })}
-                        </ul>
+                      <div className="flex flex-row justify-between items-baseline flex-wrap gap-2">
+                        {car.availability ? (
+                          <div className="btn btn-success w-fit px-2 h-6 mt-2">
+                            Avilable
+                          </div>
+                        ) : (
+                          <div className="btn btn-warning w-fit px-2 h-6 mt-2">
+                            Not Available
+                          </div>
+                        )}
+                        <p className="font-medium text-secondary">
+                          {car.dailyRentalPrice}/- Taka/day
+                        </p>
                       </div>
                     </div>
                     <Link to={`/cars/${car._id}`} className="btn btn-primary">
@@ -145,11 +148,11 @@ const AvailableCars = () => {
               {/* head */}
               <thead>
                 <tr>
-                  <th></th>
-                  <th>Model</th>
-                  <th>Features</th>
+                  <th>Image</th>
+                  <th>Model and location</th>
+                  <th>Rental Price</th>
                   <th>Availability</th>
-                  <th></th>
+                  <th>Action Button</th>
                 </tr>
               </thead>
               <tbody>
@@ -172,17 +175,9 @@ const AvailableCars = () => {
                         </div>
                       </td>
                       <td>
-                        <div className="w-full border-1 bg-base-200 px-2 py-1 mt-4 opacity-70 rounded-sm">
-                          <ul className="text-sm italic pl-1">
-                            {car.features.map((feature) => {
-                              return (
-                                <li key={car.features.indexOf(feature)}>
-                                  {feature}
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
+                        <p className="opacity-80 text-base font-medium text-secondary">
+                          {car.dailyRentalPrice}/- Taka/day
+                        </p>
                       </td>
                       <td>
                         {car.availability ? (
@@ -211,7 +206,7 @@ const AvailableCars = () => {
           </div>
         )}
         {/* No cars found */}
-        {cars.length === 0 && (
+        {cars.length === 0 && !loading && (
           <div className="flex flex-col items-center justify-center gap-4 h-96">
             <h1 className="text-3xl font-bold text-secondary text-center">
               No Cars Found
