@@ -5,7 +5,7 @@ const AddCar = () => {
   const addCar = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const data = {
+    const carData = {
       model: formData.get("model"),
       dailyRentalPrice: formData.get("dailyRentalPrice"),
       availability: formData.get("availability"),
@@ -23,11 +23,13 @@ const AddCar = () => {
       dateAdded: new Date().toISOString(),
     };
     axios
-      .post("/add-car", data)
+      .post("/cars", {
+        car: carData,
+      })
       .then((res) => {
         if (res.status === 200) {
           toast("Car added successfully");
-          e.target.reset();
+          // e.target.reset();
         } else {
           toast("Failed to add car");
         }
@@ -59,7 +61,7 @@ const AddCar = () => {
             className="bg-base-200 px-3 py-2 rounded-sm"
           />
           <input
-            type="text"
+            type="number"
             required
             name="dailyRentalPrice"
             placeholder="Daily Rental Price (Taka)"
