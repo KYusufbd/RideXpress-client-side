@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import ThemeToggle from "./components/ThemeToggle";
+import { useContext, useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import { Outlet, useLocation } from "react-router";
 import Footer from "./components/Footer";
@@ -8,6 +7,7 @@ import DataContext from "./contexts/DataContext.js";
 
 function App() {
   const [theme, setTheme] = useState("light");
+  const { loading } = useContext(DataContext);
 
   // Function to scroll to top when the route is changed.
   const location = useLocation();
@@ -20,38 +20,20 @@ function App() {
     theme === "light" ? setTheme("dark") : setTheme("light");
   };
 
-  const [cars, setCars] = useState([]);
-  const [myCars, setMyCars] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [listView, setListView] = useState(false);
-
-  const data = {
-    cars,
-    setCars,
-    myCars,
-    setMyCars,
-    loading,
-    setLoading,
-    listView,
-    setListView,
-  };
-
   return (
-    <DataContext.Provider value={data}>
-      <div data-theme={theme}>
-        <Navbar themeToggle={themeToggle} />
-        <main className="min-h-screen relative">
-          <Outlet />
-          <ToastContainer />
-          {loading && (
-            <div className="absolute top-0 w-full h-full flex justify-center items-center bg-transparent z-10">
-              <span className="loading loading-dots loading-xl"></span>
-            </div>
-          )}
-        </main>
-        <Footer />
-      </div>
-    </DataContext.Provider>
+    <div data-theme={theme}>
+      <Navbar themeToggle={themeToggle} />
+      <main className="min-h-screen relative">
+        <Outlet />
+        <ToastContainer />
+        {loading && (
+          <div className="absolute top-0 w-full h-full flex justify-center items-center bg-transparent z-10">
+            <span className="loading loading-dots loading-xl"></span>
+          </div>
+        )}
+      </main>
+      <Footer />
+    </div>
   );
 }
 

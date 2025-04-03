@@ -101,7 +101,7 @@ const AvailableCars = () => {
         {/* Cars list */}
         {!listView && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 px-3">
-            {cars.map((car) => {
+            {cars?.map((car) => {
               return (
                 <div
                   key={car._id}
@@ -206,7 +206,7 @@ const AvailableCars = () => {
           </div>
         )}
         {/* No cars found */}
-        {cars.length === 0 && !loading && (
+        {(!cars?.length && !loading) && (
           <div className="flex flex-col items-center justify-center gap-4 h-96">
             <h1 className="text-3xl font-bold text-secondary text-center">
               No Cars Found

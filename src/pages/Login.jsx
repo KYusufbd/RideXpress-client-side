@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import AuthContext from "../contexts/AuthContext";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
@@ -10,6 +10,8 @@ const Login = () => {
   const [warning, setWarning] = useState(false);
   const { loginWithGoogle, register, signIn, user, resetPassword } =
     useContext(AuthContext);
+  const location = useLocation();
+  const from = location.state.from.pathname || '/';
 
   // Handle Login function
   const handleLogin = (e) => {
@@ -57,8 +59,8 @@ const Login = () => {
   // Navigating logged in users to home page.
   const navigate = useNavigate();
   useEffect(() => {
-    user && navigate("/");
-  }, [navigate, user]);
+    user && navigate(from, { replace: true });
+  }, [from, navigate, user]);
 
   return (
     <>

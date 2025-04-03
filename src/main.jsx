@@ -11,7 +11,9 @@ import MyCars from "./pages/MyCars.jsx";
 import MyBookings from "./pages/MyBookings.jsx";
 import CarDetails from "./pages/CarDetails.jsx";
 import AuthProvider from "./firebase/AuthProvider.jsx";
+import DataProvider from "./components/DataProvider.jsx";
 import axios from "axios";
+import PrivateRoute from "./components/PrivateRoute.jsx";
 
 // Set base URL of Axios
 axios.defaults.baseURL = "http://localhost:5000/";
@@ -20,20 +22,43 @@ axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />}>
-            <Route index element={<Home />} />
-            <Route path="/cars" element={<AvailableCars />} />
-            <Route path="/cars/:id" element={<CarDetails />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/add-car" element={<AddCar />} />
-            <Route path="/my-cars" element={<MyCars />} />
-            <Route path="/my-bookings" element={<MyBookings />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+    <DataProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route index element={<Home />} />
+              <Route path="/cars" element={<AvailableCars />} />
+              <Route path="/cars/:id" element={<CarDetails />} />
+              <Route path="/login" element={<Login />} />
+              <Route
+                path="/add-car"
+                element={
+                  <PrivateRoute>
+                    <AddCar />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/my-cars"
+                element={
+                  <PrivateRoute>
+                    <MyCars />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/my-bookings"
+                element={
+                  <PrivateRoute>
+                    <MyBookings />
+                  </PrivateRoute>
+                }
+              />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </DataProvider>
   </StrictMode>,
 );
