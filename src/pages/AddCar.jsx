@@ -7,8 +7,8 @@ const AddCar = () => {
     const formData = new FormData(e.target);
     const carData = {
       model: formData.get("model"),
-      dailyRentalPrice: formData.get("dailyRentalPrice"),
-      availability: formData.get("availability"),
+      dailyRentalPrice: Number(formData.get("dailyRentalPrice")),
+      availability: Boolean(formData.get("availability")),
       vehicleRegistrationNumber: formData.get("vehicleRegistrationNumber"),
       features: formData
         .get("features")
