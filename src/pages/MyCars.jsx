@@ -3,6 +3,7 @@ import DataContext from "../contexts/DataContext";
 import axios from "axios";
 import { Link } from "react-router";
 import AuthContext from "../contexts/AuthContext";
+import swal from "sweetalert";
 
 const MyCars = () => {
   const { myCars, setMyCars, loading, setLoading } = useContext(DataContext);
@@ -33,8 +34,30 @@ const MyCars = () => {
 
   // Handle delete
   const handleDelete = (carId) => {
-    // Add delete logic here
-    console.log("Deleting car:", carId);
+    swal({
+      title: "Are you sure?",
+      text: `Once deleted, you will not be able to recover your car: ${carId}!`,
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        axios
+          .delete("/cars/" + carId)
+          .then((res) => {
+            console.log(res.data);
+            setMyCars(myCars.filter((car) => car._id !== carId));
+            swal("Poof! Your car has been deleted!", {
+              icon: "success",
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        swal("Your car is not deleted!");
+      }
+    });
   };
 
   return (
