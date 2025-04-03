@@ -29,7 +29,7 @@ const AddCar = () => {
       .then((res) => {
         if (res.status === 200) {
           toast("Car added successfully");
-          // e.target.reset();
+          e.target.reset();
         } else {
           toast("Failed to add car");
         }
