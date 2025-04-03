@@ -22,7 +22,8 @@ const AddCar = () => {
       ownerId: "", // This should be replaced with the actual owner ID after user authentication
       dateAdded: new Date().toISOString(),
     };
-    axios.post('/add-car', data)
+    axios
+      .post("/add-car", data)
       .then((res) => {
         if (res.status === 200) {
           toast("Car added successfully");

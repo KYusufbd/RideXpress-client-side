@@ -2,9 +2,11 @@ import { useContext, useEffect } from "react";
 import DataContext from "../contexts/DataContext";
 import axios from "axios";
 import { Link } from "react-router";
+import AuthContext from "../contexts/AuthContext";
 
 const MyCars = () => {
   const { myCars, setMyCars, loading, setLoading } = useContext(DataContext);
+  const { user } = useContext(AuthContext);
 
   // Fetch cars data
   useEffect(() => {
@@ -21,7 +23,7 @@ const MyCars = () => {
         setLoading(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
   // Handle update
   const handleUpdate = (carId) => {

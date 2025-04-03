@@ -11,7 +11,7 @@ const Login = () => {
   const { loginWithGoogle, register, signIn, user, resetPassword } =
     useContext(AuthContext);
   const location = useLocation();
-  const from = location.state.from.pathname || '/';
+  const from = location.state?.from || "/";
 
   // Handle Login function
   const handleLogin = (e) => {

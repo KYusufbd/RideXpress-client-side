@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
 
   // Google Auth Provider
   const provider = new GoogleAuthProvider();
@@ -150,11 +150,10 @@ const AuthProvider = ({ children }) => {
       });
   };
 
-  //   Get current user:
+  //   Get logged in user:
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      //   setLoading(false);
       return unsubscribe();
     });
   }, []);

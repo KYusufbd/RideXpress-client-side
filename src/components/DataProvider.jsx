@@ -17,9 +17,7 @@ const DataProvider = ({ children }) => {
     listView,
     setListView,
   };
-  return (
-    <DataContext.Provider value={ data }>{children}</DataContext.Provider>
-  );
+  return <DataContext.Provider value={data}>{children}</DataContext.Provider>;
 };
 
 export default DataProvider;
