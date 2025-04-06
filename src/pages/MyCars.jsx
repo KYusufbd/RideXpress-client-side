@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import DataContext from "../contexts/DataContext";
 import axios from "axios";
 import { Link } from "react-router";
@@ -8,6 +8,7 @@ import swal from "sweetalert";
 const MyCars = () => {
   const { myCars, setMyCars, loading, setLoading } = useContext(DataContext);
   const { user } = useContext(AuthContext);
+  const [carForUpdate, setCarForUpdate] = useState(null);
 
   // Fetch cars data
   useEffect(() => {
@@ -28,8 +29,37 @@ const MyCars = () => {
 
   // Handle update
   const handleUpdate = (carId) => {
-    // Add update logic here
-    console.log("Updating car:", carId);
+    // Set the car for update
+    axios.get(`/cars/${carId}`).then((res) => {
+      setCarForUpdate(res.data);
+      // Open the modal
+      const modal = document.getElementById("my_modal_1");
+      modal.showModal();
+    });
+  };
+
+  // Update car
+  const updateCar = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const carData = {
+      model: formData.get("model"),
+      dailyRentalPrice: Number(formData.get("dailyRentalPrice")),
+      availability: Boolean(formData.get("availability")),
+      vehicleRegistrationNumber: formData.get("vehicleRegistrationNumber"),
+      features: formData
+        .get("features")
+        .split("\n")
+        .map((feature) => feature.trim())
+        .filter((feature) => feature !== ""),
+      description: formData.get("description"),
+      bookingCount: 0,
+      imageUrl: formData.get("imageUrl"),
+      location: formData.get("location"),
+      ownerId: "", // This should be replaced with the actual owner ID after user authentication
+      dateAdded: new Date().toISOString(),
+    };
+    console.log(carData); // For debugging
   };
 
   // Handle delete
@@ -132,13 +162,13 @@ const MyCars = () => {
                       <div className="flex flex-row flex-wrap gap-2">
                         <button
                           onClick={() => handleUpdate(car._id)}
-                          className="btn btn-xs btn-primary"
+                          className="btn btn-xs btn-primary w-18"
                         >
                           Update
                         </button>
                         <button
                           onClick={() => handleDelete(car._id)}
-                          className="btn btn-xs btn-error"
+                          className="btn btn-xs btn-error w-18"
                         >
                           Delete
                         </button>
@@ -161,6 +191,92 @@ const MyCars = () => {
             </Link>
           </div>
         )}
+        {/* Modal for updating a car */}
+        <dialog id="my_modal_1" className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg text-center text-primary opacity-70">
+              Update Car Info
+            </h3>
+            <form
+              onSubmit={updateCar}
+              className="card bg-base-100 flex flex-col gap-3 w-120 max-w-full shadow-sm p-6"
+            >
+              <input
+                type="text"
+                required
+                name="model"
+                defaultValue={carForUpdate?.model}
+                placeholder="Model"
+                className="bg-base-200 px-3 py-2 rounded-sm"
+              />
+              <input
+                type="number"
+                required
+                name="dailyRentalPrice"
+                defaultValue={carForUpdate?.dailyRentalPrice}
+                placeholder="Daily Rental Price (Taka)"
+                className="bg-base-200 px-3 py-2 rounded-sm"
+              />
+              <select
+                name="availability"
+                defaultValue={carForUpdate?.availability ? 1 : ""}
+                className="bg-base-200 px-3 py-2 rounded-sm"
+              >
+                <option value={1}>Available</option>
+                <option value={""}>Not Available</option>
+              </select>
+              <input
+                type="text"
+                required
+                name="vehicleRegistrationNumber"
+                defaultValue={carForUpdate?.vehicleRegistrationNumber}
+                placeholder="Vehicle Registration Number"
+                className="bg-base-200 px-3 py-2 rounded-sm"
+              />
+              <textarea
+                type="text"
+                required
+                name="features"
+                defaultValue={carForUpdate?.features.join("\n")}
+                placeholder="Features (Write each feature in new line)"
+                className="bg-base-200 px-3 py-2 rounded-sm"
+              />
+              <input
+                type="text"
+                required
+                name="description"
+                defaultValue={carForUpdate?.description}
+                placeholder="Description"
+                className="bg-base-200 px-3 py-2 rounded-sm"
+              />
+              <input
+                type="url"
+                required
+                name="imageUrl"
+                defaultValue={carForUpdate?.imageUrl}
+                placeholder="Image URL"
+                className="bg-base-200 px-3 py-2 rounded-sm"
+              />
+              <input
+                type="text"
+                required
+                name="location"
+                defaultValue={carForUpdate?.location}
+                placeholder="Location (e.g. Khulna, Bangladesh)"
+                className="bg-base-200 px-3 py-2 rounded-sm"
+              />
+              <button type="submit" className="btn btn-primary mt-4">
+                Update Car
+              </button>
+            </form>
+            <div className="modal-action">
+              <form method="dialog" className="absolute top-0 right-0">
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn btn-circle btn-ghost">X</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
       </div>
     </div>
   );
