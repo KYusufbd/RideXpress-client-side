@@ -44,8 +44,8 @@ const MyCars = () => {
     const formData = new FormData(e.target);
     const carData = {
       model: formData.get("model"),
-      dailyRentalPrice: Number(formData.get("dailyRentalPrice")),
-      availability: Boolean(formData.get("availability")),
+      dailyRentalPrice: JSON.parse(formData.get("dailyRentalPrice")),
+      availability: JSON.parse(formData.get("availability")),
       vehicleRegistrationNumber: formData.get("vehicleRegistrationNumber"),
       features: formData
         .get("features")
@@ -53,13 +53,41 @@ const MyCars = () => {
         .map((feature) => feature.trim())
         .filter((feature) => feature !== ""),
       description: formData.get("description"),
-      bookingCount: 0,
       imageUrl: formData.get("imageUrl"),
       location: formData.get("location"),
-      ownerId: "", // This should be replaced with the actual owner ID after user authentication
-      dateAdded: new Date().toISOString(),
     };
-    console.log(carData); // For debugging
+    axios
+      .put("/cars/" + carForUpdate._id, {
+        car: carData,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setMyCars(
+            myCars.map((car) =>
+              car._id === carForUpdate._id ? { ...car, ...carData } : car,
+            ),
+          );
+          e.target.reset();
+          setCarForUpdate(null);
+          swal("Car updated successfully!", {
+            icon: "success",
+          });
+        } else {
+          swal("Failed to update car", {
+            icon: "error",
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        swal("An error occurred while updating the car", {
+          icon: "error",
+        });
+      })
+      .finally(() => {
+        const modal = document.getElementById("my_modal_1");
+        modal.close();
+      });
   };
 
   // Handle delete
@@ -219,11 +247,11 @@ const MyCars = () => {
               />
               <select
                 name="availability"
-                defaultValue={carForUpdate?.availability ? 1 : ""}
+                defaultValue={carForUpdate?.availability}
                 className="bg-base-200 px-3 py-2 rounded-sm"
               >
-                <option value={1}>Available</option>
-                <option value={""}>Not Available</option>
+                <option value={true}>Available</option>
+                <option value={false}>Not Available</option>
               </select>
               <input
                 type="text"

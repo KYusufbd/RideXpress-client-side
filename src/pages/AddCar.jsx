@@ -7,8 +7,8 @@ const AddCar = () => {
     const formData = new FormData(e.target);
     const carData = {
       model: formData.get("model"),
-      dailyRentalPrice: Number(formData.get("dailyRentalPrice")),
-      availability: Boolean(formData.get("availability")),
+      dailyRentalPrice: JSON.parse(formData.get("dailyRentalPrice")),
+      availability: JSON.parse(formData.get("availability")),
       vehicleRegistrationNumber: formData.get("vehicleRegistrationNumber"),
       features: formData
         .get("features")
@@ -72,8 +72,8 @@ const AddCar = () => {
             defaultValue={true}
             className="bg-base-200 px-3 py-2 rounded-sm"
           >
-            <option value={1}>Available</option>
-            <option value={''}>Not Available</option>
+            <option value={true}>Available</option>
+            <option value={false}>Not Available</option>
           </select>
           <input
             type="text"
