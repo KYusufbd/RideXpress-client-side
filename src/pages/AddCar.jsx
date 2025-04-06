@@ -72,8 +72,8 @@ const AddCar = () => {
             defaultValue={true}
             className="bg-base-200 px-3 py-2 rounded-sm"
           >
-            <option value={true}>Available</option>
-            <option value={false}>Not Available</option>
+            <option value={1}>Available</option>
+            <option value={''}>Not Available</option>
           </select>
           <input
             type="text"
