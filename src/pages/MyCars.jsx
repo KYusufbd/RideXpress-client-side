@@ -225,7 +225,7 @@ const MyCars = () => {
             <h3 className="font-bold text-lg text-center text-primary opacity-70">
               Update Car Info
             </h3>
-            <form
+            {carForUpdate && <form
               onSubmit={updateCar}
               className="card bg-base-100 flex flex-col gap-3 w-120 max-w-full shadow-sm p-6"
             >
@@ -296,11 +296,11 @@ const MyCars = () => {
               <button type="submit" className="btn btn-primary mt-4">
                 Update Car
               </button>
-            </form>
+            </form>}
             <div className="modal-action">
               <form method="dialog" className="absolute top-0 right-0">
                 {/* if there is a button in form, it will close the modal */}
-                <button className="btn btn-circle btn-ghost">X</button>
+                <button className="btn btn-circle btn-ghost" onClick={() =>setCarForUpdate(null)}>X</button>
               </form>
             </div>
           </div>
