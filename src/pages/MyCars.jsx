@@ -212,10 +212,10 @@ const MyCars = () => {
         {myCars.length === 0 && !loading && (
           <div className="flex flex-col items-center justify-center gap-4 h-96">
             <h1 className="text-3xl font-bold text-secondary text-center">
-              No Cars Found
+              You didn't add any car yet!
             </h1>
-            <Link to="/" className="btn btn-primary w-max">
-              Go Back
+            <Link to="/add-car" className="btn btn-primary w-max">
+              Add Your First Car
             </Link>
           </div>
         )}
@@ -225,82 +225,89 @@ const MyCars = () => {
             <h3 className="font-bold text-lg text-center text-primary opacity-70">
               Update Car Info
             </h3>
-            {carForUpdate && <form
-              onSubmit={updateCar}
-              className="card bg-base-100 flex flex-col gap-3 w-120 max-w-full shadow-sm p-6"
-            >
-              <input
-                type="text"
-                required
-                name="model"
-                defaultValue={carForUpdate?.model}
-                placeholder="Model"
-                className="bg-base-200 px-3 py-2 rounded-sm"
-              />
-              <input
-                type="number"
-                required
-                name="dailyRentalPrice"
-                defaultValue={carForUpdate?.dailyRentalPrice}
-                placeholder="Daily Rental Price (Taka)"
-                className="bg-base-200 px-3 py-2 rounded-sm"
-              />
-              <select
-                name="availability"
-                defaultValue={carForUpdate?.availability}
-                className="bg-base-200 px-3 py-2 rounded-sm"
+            {carForUpdate && (
+              <form
+                onSubmit={updateCar}
+                className="card bg-base-100 flex flex-col gap-3 w-120 max-w-full shadow-sm p-6"
               >
-                <option value={true}>Available</option>
-                <option value={false}>Not Available</option>
-              </select>
-              <input
-                type="text"
-                required
-                name="vehicleRegistrationNumber"
-                defaultValue={carForUpdate?.vehicleRegistrationNumber}
-                placeholder="Vehicle Registration Number"
-                className="bg-base-200 px-3 py-2 rounded-sm"
-              />
-              <textarea
-                type="text"
-                required
-                name="features"
-                defaultValue={carForUpdate?.features.join("\n")}
-                placeholder="Features (Write each feature in new line)"
-                className="bg-base-200 px-3 py-2 rounded-sm"
-              />
-              <input
-                type="text"
-                required
-                name="description"
-                defaultValue={carForUpdate?.description}
-                placeholder="Description"
-                className="bg-base-200 px-3 py-2 rounded-sm"
-              />
-              <input
-                type="url"
-                required
-                name="imageUrl"
-                defaultValue={carForUpdate?.imageUrl}
-                placeholder="Image URL"
-                className="bg-base-200 px-3 py-2 rounded-sm"
-              />
-              <input
-                type="text"
-                required
-                name="location"
-                defaultValue={carForUpdate?.location}
-                placeholder="Location (e.g. Khulna, Bangladesh)"
-                className="bg-base-200 px-3 py-2 rounded-sm"
-              />
-              <button type="submit" className="btn btn-primary mt-4">
-                Update Car
-              </button>
-            </form>}
+                <input
+                  type="text"
+                  required
+                  name="model"
+                  defaultValue={carForUpdate?.model}
+                  placeholder="Model"
+                  className="bg-base-200 px-3 py-2 rounded-sm"
+                />
+                <input
+                  type="number"
+                  required
+                  name="dailyRentalPrice"
+                  defaultValue={carForUpdate?.dailyRentalPrice}
+                  placeholder="Daily Rental Price (Taka)"
+                  className="bg-base-200 px-3 py-2 rounded-sm"
+                />
+                <select
+                  name="availability"
+                  defaultValue={carForUpdate?.availability}
+                  className="bg-base-200 px-3 py-2 rounded-sm"
+                >
+                  <option value={true}>Available</option>
+                  <option value={false}>Not Available</option>
+                </select>
+                <input
+                  type="text"
+                  required
+                  name="vehicleRegistrationNumber"
+                  defaultValue={carForUpdate?.vehicleRegistrationNumber}
+                  placeholder="Vehicle Registration Number"
+                  className="bg-base-200 px-3 py-2 rounded-sm"
+                />
+                <textarea
+                  type="text"
+                  required
+                  name="features"
+                  defaultValue={carForUpdate?.features.join("\n")}
+                  placeholder="Features (Write each feature in new line)"
+                  className="bg-base-200 px-3 py-2 rounded-sm"
+                />
+                <input
+                  type="text"
+                  required
+                  name="description"
+                  defaultValue={carForUpdate?.description}
+                  placeholder="Description"
+                  className="bg-base-200 px-3 py-2 rounded-sm"
+                />
+                <input
+                  type="url"
+                  required
+                  name="imageUrl"
+                  defaultValue={carForUpdate?.imageUrl}
+                  placeholder="Image URL"
+                  className="bg-base-200 px-3 py-2 rounded-sm"
+                />
+                <input
+                  type="text"
+                  required
+                  name="location"
+                  defaultValue={carForUpdate?.location}
+                  placeholder="Location (e.g. Khulna, Bangladesh)"
+                  className="bg-base-200 px-3 py-2 rounded-sm"
+                />
+                <button type="submit" className="btn btn-primary mt-4">
+                  Update Car
+                </button>
+              </form>
+            )}
             <div className="modal-action">
               <form method="dialog" className="absolute top-0 right-0">
                 {/* if there is a button in form, it will close the modal */}
-                <button className="btn btn-circle btn-ghost" onClick={() =>setCarForUpdate(null)}>X</button>
+                <button
+                  className="btn btn-circle btn-ghost"
+                  onClick={() => setCarForUpdate(null)}
+                >
+                  X
+                </button>
               </form>
             </div>
           </div>

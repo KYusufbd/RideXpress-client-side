@@ -206,7 +206,7 @@ const AvailableCars = () => {
           </div>
         )}
         {/* No cars found */}
-        {!cars?.length && !loading && (
+        {cars.length === 0 && !loading && (
           <div className="flex flex-col items-center justify-center gap-4 h-96">
             <h1 className="text-3xl font-bold text-secondary text-center">
               No Cars Found
