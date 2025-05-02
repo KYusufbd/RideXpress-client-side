@@ -3,10 +3,14 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import DataContext from "../contexts/DataContext";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const CarDetails = () => {
   const [car, setCar] = useState();
   const { setLoading } = useContext(DataContext);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   const carId = useParams().id;
 
@@ -77,7 +81,9 @@ const CarDetails = () => {
             </div>
             <div className="card-actions">
               <button
-                onClick={handleBooking}
+                onClick={() =>
+                  document.getElementById("my_modal_1").showModal()
+                }
                 className={`btn btn-primary ${car?.availability ? "" : "btn-disabled"} w-full mt-4`}
               >
                 Book Now
@@ -86,8 +92,73 @@ const CarDetails = () => {
           </div>
         </div>
       </div>
+      <dialog id="my_modal_1" className="modal">
+        <div className="modal-box flex flex-col justify-between bg-base-200 text-base-content relative min-h-11/12 my-5">
+          <div className="flex flex-col w-full gap-2">
+            <h3 className="font-bold text-3xl text-primary mb-4">Booking Summary</h3>
+            <h6 className="text-lg font-medium">{car?.model}</h6>
+            <h6 className="text-base font-medium">Reg Number: {car?.vehicleRegistrationNumber}</h6>
+            <h6 className="text-base font-medium">Location: {car?.location}</h6>
+            <h6 className="text-base font-medium">
+              Daily Cost: {car?.dailyRentalPrice}
+            </h6>
+            <p className="py-4 -mb-4 text-base italic text-warning">
+              Please select dates to book the car:
+            </p>
+            <div className="flex flex-col gap-2">
+              <h6 className="text-lg font-medium">Start date:</h6>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <h6 className="text-lg font-medium">End date:</h6>
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+              />
+            </div>
+            <h6 className="text-lg font-medium">
+              Total cost:{" "}
+              {(endDate.getDate() - startDate.getDate() + 1) *
+                car?.dailyRentalPrice}
+              /- Taka
+            </h6>
+          </div>
+          <div className="modal-action">
+            <form method="dialog">
+              <button className="btn btn-circle btn-ghost absolute right-3 top-3 h-5 w-5">
+                X
+              </button>
+            </form>
+          </div>
+          <button onClick={handleBooking} className="btn btn-secondary">Confirm</button>
+        </div>
+      </dialog>
     </div>
   );
 };
 
 export default CarDetails;
+
+/*
+{
+    "_id": "67e1258bcab652051e3ccfa4",
+    "model": "Porsche 911 Carrera 2021",
+    "dailyRentalPrice": 25000,
+    "availability": false,
+    "vehicleRegistrationNumber": "POR-5678",
+    "features": [
+        "Turbocharged Engine",
+        "Rear-Wheel Drive",
+        "Sport Exhaust"
+    ],
+    "description": "A high-performance sports car with stunning acceleration and handling.",
+    "bookingCount": 4,
+    "imageUrl": "https://robbreport.com/wp-content/uploads/2021/05/1-13.jpg?w=1000",
+    "location": "Sylhet, Bangladesh",
+    "ownerId": "67e05d2aea3b6eb5b1da6074",
+    "dateAdded": "2025-03-04T10:50:00Z"
+}
+*/
