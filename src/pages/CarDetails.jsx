@@ -5,6 +5,7 @@ import DataContext from "../contexts/DataContext";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { toast } from "react-toastify";
 
 const CarDetails = () => {
   const [car, setCar] = useState();
@@ -29,8 +30,27 @@ const CarDetails = () => {
 
   // Handle booking
   const handleBooking = () => {
-    // Add booking logic here
-    console.log("Booking car:", car?.model);
+    const booking = {
+      carId: car?._id,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+      totalCost:
+        (endDate.getDate() - startDate.getDate() + 1) * car?.dailyRentalPrice,
+      createdAt: new Date().toISOString(),
+    };
+    axios
+      .post("/bookings", {
+        booking: booking,
+      })
+      .then((res) => {
+        console.log(res.data);
+        toast(res.data.message);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast("Booking failed");
+      });
+    document.getElementById("my_modal_1").close();
   };
 
   return (
@@ -95,9 +115,13 @@ const CarDetails = () => {
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box flex flex-col justify-between bg-base-200 text-base-content relative min-h-11/12 my-5">
           <div className="flex flex-col w-full gap-2">
-            <h3 className="font-bold text-3xl text-primary mb-4">Booking Summary</h3>
+            <h3 className="font-bold text-3xl text-primary mb-4">
+              Booking Summary
+            </h3>
             <h6 className="text-lg font-medium">{car?.model}</h6>
-            <h6 className="text-base font-medium">Reg Number: {car?.vehicleRegistrationNumber}</h6>
+            <h6 className="text-base font-medium">
+              Reg Number: {car?.vehicleRegistrationNumber}
+            </h6>
             <h6 className="text-base font-medium">Location: {car?.location}</h6>
             <h6 className="text-base font-medium">
               Daily Cost: {car?.dailyRentalPrice}
@@ -133,7 +157,9 @@ const CarDetails = () => {
               </button>
             </form>
           </div>
-          <button onClick={handleBooking} className="btn btn-secondary">Confirm</button>
+          <button onClick={handleBooking} className="btn btn-secondary">
+            Confirm
+          </button>
         </div>
       </dialog>
     </div>
