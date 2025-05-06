@@ -11,7 +11,48 @@ const CarDetails = () => {
   const [car, setCar] = useState();
   const { setLoading } = useContext(DataContext);
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(startDate);
+  const [bookedDates, setBookedDates] = useState([]);
+
+  // Check if the selected dates are available
+  const isAvailable = (startDate, endDate) => {
+    let availability = true;
+    bookedDates.forEach((date) => {
+      if (new Date(date) >= startDate && new Date(date) <= endDate) {
+        availability = false;
+      }
+    });
+    return availability;
+  };
+
+  const isValid = (startDate, endDate) => {
+    let validity = true;
+    if (startDate > endDate) {
+      validity = false;
+      toast("Start date should be before end date!");
+    }
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (startDate < today) {
+      validity = false;
+      toast("Start date should be today or later!");
+    }
+    return validity;
+  };
+
+  function getDatesBetween(startDateStr, endDateStr) {
+    const start = new Date(startDateStr);
+    const end = new Date(endDateStr);
+    const dateArray = [];
+
+    const currentDate = new Date(start);
+    while (currentDate <= end) {
+      dateArray.push(new Date(currentDate).toISOString());
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dateArray;
+  }
 
   const carId = useParams().id;
 
@@ -21,6 +62,12 @@ const CarDetails = () => {
       .get(`/cars/${carId}`)
       .then((res) => {
         setCar(res.data);
+        const booked = [];
+        res.data.bookings.forEach((booking) => {
+          const dates = getDatesBetween(booking.startDate, booking.endDate);
+          booked.push(...dates);
+        });
+        setBookedDates(booked);
       })
       .catch((err) => console.log(err))
       .finally(() => {
@@ -30,6 +77,8 @@ const CarDetails = () => {
 
   // Handle booking
   const handleBooking = () => {
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(23, 59, 59, 999);
     const booking = {
       carId: car?._id,
       startDate: startDate.toISOString(),
@@ -38,6 +87,19 @@ const CarDetails = () => {
         (endDate.getDate() - startDate.getDate() + 1) * car?.dailyRentalPrice,
       createdAt: new Date().toISOString(),
     };
+    if (!isAvailable(startDate, endDate)) {
+      toast("Car is not available for the selected dates");
+      setStartDate(new Date());
+      setEndDate(new Date());
+      document.getElementById("my_modal_1").close();
+      return;
+    }
+    if (!isValid(startDate, endDate)) {
+      setStartDate(new Date());
+      setEndDate(new Date());
+      document.getElementById("my_modal_1").close();
+      return;
+    }
     axios
       .post("/bookings", {
         booking: booking,
@@ -133,6 +195,9 @@ const CarDetails = () => {
               <h6 className="text-lg font-medium">Start date:</h6>
               <DatePicker
                 selected={startDate}
+                minDate={new Date()}
+                maxDate={new Date().setDate(new Date().getDate() + 10)}
+                excludeDates={bookedDates.map((date) => new Date(date))}
                 onChange={(date) => setStartDate(date)}
               />
             </div>
@@ -141,6 +206,9 @@ const CarDetails = () => {
               <DatePicker
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
+                minDate={startDate}
+                maxDate={new Date().setDate(new Date(startDate).getDate() + 9)}
+                excludeDates={bookedDates.map((date) => new Date(date))}
               />
             </div>
             <h6 className="text-lg font-medium">
@@ -167,24 +235,3 @@ const CarDetails = () => {
 };
 
 export default CarDetails;
-
-/*
-{
-    "_id": "67e1258bcab652051e3ccfa4",
-    "model": "Porsche 911 Carrera 2021",
-    "dailyRentalPrice": 25000,
-    "availability": false,
-    "vehicleRegistrationNumber": "POR-5678",
-    "features": [
-        "Turbocharged Engine",
-        "Rear-Wheel Drive",
-        "Sport Exhaust"
-    ],
-    "description": "A high-performance sports car with stunning acceleration and handling.",
-    "bookingCount": 4,
-    "imageUrl": "https://robbreport.com/wp-content/uploads/2021/05/1-13.jpg?w=1000",
-    "location": "Sylhet, Bangladesh",
-    "ownerId": "67e05d2aea3b6eb5b1da6074",
-    "dateAdded": "2025-03-04T10:50:00Z"
-}
-*/
