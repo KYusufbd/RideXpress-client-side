@@ -119,7 +119,7 @@ const CarDetails = () => {
   return (
     <div>
       {/* Top bar */}
-      <div className="flex flex-row flex-wrap gap-5 justify-start p-3 bg-base-100">
+      <div className="sticky top-18 flex flex-row flex-wrap gap-5 w-full justify-start p-3 bg-base-100 z-10">
         <Link to="/cars" className="btn btn-ghost w-fit p-0 my-auto">
           <IoIosArrowRoundBack size={"2rem"} />
         </Link>
