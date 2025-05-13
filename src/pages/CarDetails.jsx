@@ -85,7 +85,7 @@ const CarDetails = () => {
       endDate: endDate.toISOString(),
       totalCost:
         (endDate.getDate() - startDate.getDate() + 1) * car?.dailyRentalPrice,
-        status: "pending",
+      status: "pending",
       createdAt: new Date().toISOString(),
     };
     if (!isAvailable(startDate, endDate)) {
@@ -214,8 +214,10 @@ const CarDetails = () => {
             </div>
             <h6 className="text-lg font-medium">
               Total cost:{" "}
-              {endDate > startDate ? (endDate.getDate() - startDate.getDate() + 1) *
-                car?.dailyRentalPrice : 0}
+              {endDate > startDate
+                ? (endDate.getDate() - startDate.getDate() + 1) *
+                  car?.dailyRentalPrice
+                : 0}
               /- Taka
             </h6>
           </div>
