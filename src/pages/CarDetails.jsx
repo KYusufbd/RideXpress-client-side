@@ -85,6 +85,7 @@ const CarDetails = () => {
       endDate: endDate.toISOString(),
       totalCost:
         (endDate.getDate() - startDate.getDate() + 1) * car?.dailyRentalPrice,
+        status: "pending",
       createdAt: new Date().toISOString(),
     };
     if (!isAvailable(startDate, endDate)) {
