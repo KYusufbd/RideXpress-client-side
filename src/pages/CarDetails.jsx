@@ -214,8 +214,8 @@ const CarDetails = () => {
             </div>
             <h6 className="text-lg font-medium">
               Total cost:{" "}
-              {(endDate.getDate() - startDate.getDate() + 1) *
-                car?.dailyRentalPrice}
+              {endDate > startDate ? (endDate.getDate() - startDate.getDate() + 1) *
+                car?.dailyRentalPrice : 0}
               /- Taka
             </h6>
           </div>
