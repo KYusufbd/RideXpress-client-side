@@ -9,50 +9,11 @@ import { toast } from "react-toastify";
 
 const CarDetails = () => {
   const [car, setCar] = useState();
-  const { setLoading } = useContext(DataContext);
+  const { setLoading, getDatesBetween, isAvailable, isValid } =
+    useContext(DataContext);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(startDate);
   const [bookedDates, setBookedDates] = useState([]);
-
-  // Check if the selected dates are available
-  const isAvailable = (startDate, endDate) => {
-    let availability = true;
-    bookedDates.forEach((date) => {
-      if (new Date(date) >= startDate && new Date(date) <= endDate) {
-        availability = false;
-      }
-    });
-    return availability;
-  };
-
-  const isValid = (startDate, endDate) => {
-    let validity = true;
-    if (startDate > endDate) {
-      validity = false;
-      toast("Start date should be before end date!");
-    }
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    if (startDate < today) {
-      validity = false;
-      toast("Start date should be today or later!");
-    }
-    return validity;
-  };
-
-  function getDatesBetween(startDateStr, endDateStr) {
-    const start = new Date(startDateStr);
-    const end = new Date(endDateStr);
-    const dateArray = [];
-
-    const currentDate = new Date(start);
-    while (currentDate <= end) {
-      dateArray.push(new Date(currentDate).toISOString());
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-
-    return dateArray;
-  }
 
   const carId = useParams().id;
 
@@ -60,7 +21,9 @@ const CarDetails = () => {
     setLoading(true);
     axios
       .get(`/cars/${carId}`)
-      .then((res) => {
+      .then(async (res) => {
+        const bookings = await axios.get(`/cars/${carId}/bookings`);
+        res.data.bookings = bookings.data;
         setCar(res.data);
         const booked = [];
         res.data.bookings.forEach((booking) => {
@@ -73,7 +36,8 @@ const CarDetails = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [carId, setLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [carId]);
 
   // Handle booking
   const handleBooking = () => {
@@ -88,7 +52,7 @@ const CarDetails = () => {
       status: "pending",
       createdAt: new Date().toISOString(),
     };
-    if (!isAvailable(startDate, endDate)) {
+    if (!isAvailable(startDate, endDate, bookedDates)) {
       toast("Car is not available for the selected dates");
       setStartDate(new Date());
       setEndDate(new Date());
@@ -214,9 +178,12 @@ const CarDetails = () => {
             </div>
             <h6 className="text-lg font-medium">
               Total cost:{" "}
-              {endDate > startDate
-                ? (endDate.getDate() - startDate.getDate() + 1) *
-                  car?.dailyRentalPrice
+              {getDatesBetween(startDate.toISOString(), endDate.toISOString())
+                .length > 0
+                ? getDatesBetween(
+                    startDate.toISOString(),
+                    endDate.toISOString(),
+                  ).length * car?.dailyRentalPrice
                 : 0}
               /- Taka
             </h6>

@@ -8,7 +8,7 @@ import swal from "sweetalert";
 import DatePicker from "react-datepicker";
 
 const MyBookings = () => {
-  const { myBookings, setMyBookings, loading, setLoading } =
+  const { myBookings, setMyBookings, loading, setLoading, getDatesBetween } =
     useContext(DataContext);
   const { user } = useContext(AuthContext);
   const [changeToReload, setChangeToReload] = useState(false);
@@ -73,7 +73,9 @@ const MyBookings = () => {
   };
 
   const handleDateChange = (id) => {
-    setBookingToBeModified(myBookings.find((booking) => booking._id === id));
+    const booking = myBookings.find((booking) => booking._id === id);
+    console.log("Booking to be modified:", booking); // Testing booking data
+    setBookingToBeModified(booking);
     const modal = document.getElementById("my_modal_1");
     modal.showModal();
   };

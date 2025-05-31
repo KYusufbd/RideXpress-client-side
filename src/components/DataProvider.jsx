@@ -1,5 +1,6 @@
 import { useState } from "react";
 import DataContext from "../contexts/DataContext";
+import { toast } from "react-toastify";
 
 const DataProvider = ({ children }) => {
   const [cars, setCars] = useState([]);
@@ -7,6 +8,50 @@ const DataProvider = ({ children }) => {
   const [myBookings, setMyBookings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [listView, setListView] = useState(false);
+
+  // Function to get all dates between two dates
+  function getDatesBetween(startDateStr, endDateStr) {
+    const start = new Date(startDateStr);
+    const end = new Date(endDateStr);
+    start.setHours(0, 0, 0, 0); // Set start date to the start of the day
+    end.setHours(0, 0, 0, 0); // Set end date to the start of the day
+    const dateArray = [];
+
+    const currentDate = new Date(start);
+    while (currentDate <= end) {
+      dateArray.push(new Date(currentDate).toISOString());
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dateArray;
+  }
+
+  // Check if the selected dates are available
+  const isAvailable = (startDate, endDate, bookedDates) => {
+    let availability = true;
+    bookedDates.forEach((date) => {
+      if (new Date(date) >= startDate && new Date(date) <= endDate) {
+        availability = false;
+      }
+    });
+    return availability;
+  };
+
+  // Check if the selected dates are valid
+  const isValid = (startDate, endDate) => {
+    let validity = true;
+    if (startDate > endDate) {
+      validity = false;
+      toast("Start date should be before end date!");
+    }
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (startDate < today) {
+      validity = false;
+      toast("Start date should be today or later!");
+    }
+    return validity;
+  };
 
   const data = {
     cars,
@@ -19,6 +64,9 @@ const DataProvider = ({ children }) => {
     setLoading,
     listView,
     setListView,
+    getDatesBetween,
+    isAvailable,
+    isValid,
   };
   return <DataContext.Provider value={data}>{children}</DataContext.Provider>;
 };
