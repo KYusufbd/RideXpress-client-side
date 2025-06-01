@@ -12,7 +12,7 @@ const CarDetails = () => {
   const { setLoading, getDatesBetween, isAvailable, isValid } =
     useContext(DataContext);
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(startDate);
+  const [endDate, setEndDate] = useState(new Date());
   const [bookedDates, setBookedDates] = useState([]);
 
   const carId = useParams().id;
@@ -160,8 +160,8 @@ const CarDetails = () => {
               <h6 className="text-lg font-medium">Start date:</h6>
               <DatePicker
                 selected={startDate}
-                minDate={new Date()}
-                maxDate={new Date().setDate(new Date().getDate() + 10)}
+                minDate={startDate}
+                maxDate={new Date().setDate(new Date(startDate).getDate() + 10)}
                 excludeDates={bookedDates.map((date) => new Date(date))}
                 onChange={(date) => setStartDate(date)}
               />
@@ -172,7 +172,7 @@ const CarDetails = () => {
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
                 minDate={startDate}
-                maxDate={new Date().setDate(new Date(startDate).getDate() + 9)}
+                maxDate={new Date().setDate(new Date(startDate).getDate() + 10)}
                 excludeDates={bookedDates.map((date) => new Date(date))}
               />
             </div>
