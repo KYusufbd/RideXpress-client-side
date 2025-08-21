@@ -67,18 +67,44 @@ const MyBookings = () => {
     });
   };
 
-  // Modify booking date function used in handle date change function
+  // Modify booking date function
   const modifyDate = (id) => {
     console.log("Modify booking date with id:", id);
   };
 
-  const handleDateChange = (id) => {
-    const booking = myBookings.find((booking) => booking._id === id);
-    console.log("Booking to be modified:", booking); // Testing booking data
-    setBookingToBeModified(booking);
-    const modal = document.getElementById("my_modal_1");
-    modal.showModal();
+  const handleDateChange = (bookingId, carId) => {
+    setBookingToBeModified(myBookings.find((b) => b._id === bookingId));
+
+    console.log(bookingToBeModified); // Testing purpose
+
+    document.getElementById("my_modal_1").showModal();
+
+    axios.get(`/cars/${carId}/bookings`).then((bookings) => {
+      const booked = [];
+      console.log("Bookings data:", bookings.data); // Testing purpose
+      bookings.data.forEach((booking) => {
+        const dates = getDatesBetween(booking.startDate, booking.endDate);
+        booked.push(...dates);
+      });
+
+      const thisBookingDates = getDatesBetween(
+        bookingToBeModified?.startDate,
+        bookingToBeModified?.endDate,
+      );
+      // Remove the dates of the booking that is being modified
+      const filteredBooked = booked.filter(
+        (date) => !thisBookingDates.includes(date),
+      );
+      // Set booked dates excluding the dates of the booking being modified
+      setBookedDates(filteredBooked);
+    });
+
+    // Testing purpose
+    console.log("Booked dates:", bookedDates);
   };
+
+  // Testing purpose
+  console.log("My bookings:", myBookings);
 
   return (
     <div className="w-full bg-base-300 min-h-screen my-0">
@@ -150,7 +176,9 @@ const MyBookings = () => {
                           Cancel
                         </button>
                         <button
-                          onClick={() => handleDateChange(booking._id)}
+                          onClick={() =>
+                            handleDateChange(booking._id, booking.carId)
+                          }
                           className={`btn ${booking.status === "cancelled" && "btn-disabled"} btn-xs btn-primary w-22`}
                         >
                           Modify Date
