@@ -68,8 +68,8 @@ const MyBookings = () => {
   };
 
   // Modify booking date function
-  const modifyDate = (id) => {
-    console.log("Modify booking date with id:", id);
+  const modifyDate = () => {
+    console.log("Modifying booking date.");
   };
 
   const handleDateChange = (bookingId, carId) => {
