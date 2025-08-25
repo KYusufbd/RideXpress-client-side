@@ -161,8 +161,8 @@ const CarDetails = () => {
               <h6 className="text-lg font-medium">Start date:</h6>
               <DatePicker
                 selected={startDate}
-                minDate={startDate}
-                maxDate={new Date().setDate(new Date(startDate).getDate() + 10)}
+                minDate={new Date()}
+                maxDate={new Date().setTime(new Date().getTime() + 10 * 24 * 60 * 60 * 1000)}
                 excludeDates={bookedDates.map((date) => new Date(date))}
                 onChange={(date) => setStartDate(date)}
               />
@@ -174,7 +174,7 @@ const CarDetails = () => {
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
                 minDate={startDate}
-                maxDate={new Date().setDate(new Date(startDate).getDate() + 10)}
+                maxDate={new Date().setTime(new Date(startDate).getTime() + 10*24*60*60*1000)}
                 excludeDates={bookedDates.map((date) => new Date(date))}
               />
             </div>
