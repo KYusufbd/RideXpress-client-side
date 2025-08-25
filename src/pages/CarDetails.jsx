@@ -162,7 +162,9 @@ const CarDetails = () => {
               <DatePicker
                 selected={startDate}
                 minDate={new Date()}
-                maxDate={new Date().setTime(new Date().getTime() + 10 * 24 * 60 * 60 * 1000)}
+                maxDate={new Date().setTime(
+                  new Date().getTime() + 10 * 24 * 60 * 60 * 1000,
+                )}
                 excludeDates={bookedDates.map((date) => new Date(date))}
                 onChange={(date) => setStartDate(date)}
               />
@@ -174,7 +176,9 @@ const CarDetails = () => {
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
                 minDate={startDate}
-                maxDate={new Date().setTime(new Date(startDate).getTime() + 10*24*60*60*1000)}
+                maxDate={new Date().setTime(
+                  new Date(startDate).getTime() + 10 * 24 * 60 * 60 * 1000,
+                )}
                 excludeDates={bookedDates.map((date) => new Date(date))}
               />
             </div>

@@ -20,7 +20,7 @@ const DataProvider = ({ children }) => {
     const currentDate = new Date(start);
     while (currentDate <= end) {
       dateArray.push(new Date(currentDate).toISOString());
-      currentDate.setDate(currentDate.getDate() + 1);
+      currentDate.setTime(currentDate.getTime() + 24 * 60 * 60 * 1000); // Add one day
     }
 
     return dateArray;

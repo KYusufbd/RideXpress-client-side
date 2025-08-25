@@ -73,9 +73,8 @@ const MyBookings = () => {
   };
 
   const handleDateChange = (bookingId, carId) => {
-    setBookingToBeModified(myBookings.find((b) => b._id === bookingId));
-
-    console.log(bookingToBeModified); // Testing purpose
+    const booking = myBookings.find((b) => b._id === bookingId);
+    setBookingToBeModified(booking);
 
     document.getElementById("my_modal_1").showModal();
 
@@ -98,13 +97,12 @@ const MyBookings = () => {
       // Set booked dates excluding the dates of the booking being modified
       setBookedDates(filteredBooked);
     });
-
-    // Testing purpose
-    console.log("Booked dates:", bookedDates);
   };
 
   // Testing purpose
-  console.log("My bookings:", myBookings);
+  console.log("Booked dates:", bookedDates);
+
+  console.log("Booking:", bookingToBeModified); // Testing purpose
 
   return (
     <div className="w-full bg-base-300 min-h-screen my-0">
@@ -218,7 +216,9 @@ const MyBookings = () => {
               <DatePicker
                 selected={bookingToBeModified?.startDate}
                 minDate={new Date()}
-                maxDate={new Date().setDate(new Date().getDate() + 10)}
+                maxDate={new Date().setTime(
+                  new Date().getTime() + 10 * 24 * 60 * 60 * 1000,
+                )}
                 excludeDates={bookedDates.map((date) => new Date(date))}
                 onChange={(date) => setStartDate(date)}
               />
@@ -229,7 +229,9 @@ const MyBookings = () => {
                 selected={bookingToBeModified?.endDate}
                 onChange={(date) => setEndDate(date)}
                 minDate={startDate}
-                maxDate={new Date().setDate(new Date(startDate).getDate() + 9)}
+                maxDate={new Date().setTime(
+                  new Date(startDate).getTime() + 9 * 24 * 60 * 60 * 1000,
+                )}
                 excludeDates={bookedDates.map((date) => new Date(date))}
               />
             </div>
