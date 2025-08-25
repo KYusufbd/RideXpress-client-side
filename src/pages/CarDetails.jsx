@@ -156,6 +156,7 @@ const CarDetails = () => {
             <p className="py-4 -mb-4 text-base italic text-warning">
               Please select dates to book the car:
             </p>
+            {/* Start Date */}
             <div className="flex flex-col gap-2">
               <h6 className="text-lg font-medium">Start date:</h6>
               <DatePicker
@@ -166,6 +167,7 @@ const CarDetails = () => {
                 onChange={(date) => setStartDate(date)}
               />
             </div>
+            {/* End Date */}
             <div className="flex flex-col gap-2">
               <h6 className="text-lg font-medium">End date:</h6>
               <DatePicker
