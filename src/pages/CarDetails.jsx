@@ -48,7 +48,10 @@ const CarDetails = () => {
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
       totalCost:
-        (endDate.getDate() - startDate.getDate() + 1) * car?.dailyRentalPrice,
+        Math.floor(
+          (endDate.getTime() - startDate.getTime() + 1 * 24 * 60 * 60 * 1000) /
+            (24 * 60 * 60 * 1000),
+        ) * car?.dailyRentalPrice,
       status: "pending",
       createdAt: new Date().toISOString(),
     };
