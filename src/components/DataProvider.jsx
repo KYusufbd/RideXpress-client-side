@@ -26,6 +26,10 @@ const DataProvider = ({ children }) => {
     return dateArray;
   }
 
+  const getTotalCost = (startDate, endDate, dailyRentalPrice) => {
+    return getDatesBetween(startDate, endDate).length * dailyRentalPrice;
+  };
+
   // Check if the selected dates are available
   const isAvailable = (startDate, endDate, bookedDates) => {
     let availability = true;
@@ -65,6 +69,7 @@ const DataProvider = ({ children }) => {
     listView,
     setListView,
     getDatesBetween,
+    getTotalCost,
     isAvailable,
     isValid,
   };

@@ -5,17 +5,35 @@ import { Link } from "react-router";
 import AuthContext from "../contexts/AuthContext";
 import { DateTime } from "luxon";
 import swal from "sweetalert";
+import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const MyBookings = () => {
-  const { myBookings, setMyBookings, loading, setLoading, getDatesBetween } =
-    useContext(DataContext);
+  const {
+    myBookings,
+    setMyBookings,
+    loading,
+    setLoading,
+    getDatesBetween,
+    getTotalCost,
+    isAvailable,
+    isValid,
+  } = useContext(DataContext);
   const { user } = useContext(AuthContext);
   const [changeToReload, setChangeToReload] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(startDate);
   const [bookedDates, setBookedDates] = useState([]);
   const [bookingToBeModified, setBookingToBeModified] = useState(null);
+
+  // Reset all states to default
+  const setAllToDefault = () => {
+    setBookingToBeModified(null);
+    setBookedDates([]);
+    setStartDate(new Date());
+    setEndDate(new Date());
+  };
 
   // Fetch booking data
   useEffect(() => {
@@ -40,6 +58,8 @@ const MyBookings = () => {
       .delete(`/bookings/${id}`)
       .then((res) => {
         console.log(res.data);
+
+        // This will trigger useEffect to reload bookings
         setChangeToReload(!changeToReload);
       })
       .catch((err) => {
@@ -69,40 +89,71 @@ const MyBookings = () => {
 
   // Modify booking date function
   const modifyDate = () => {
-    console.log("Modifying booking date.");
+    if (!isAvailable(startDate, endDate, bookedDates)) {
+      toast("Car is not available for the selected dates");
+      setStartDate(new Date());
+      setEndDate(new Date());
+      document.getElementById("my_modal_1").close();
+      return;
+    }
+    if (!isValid(startDate, endDate)) {
+      setStartDate(new Date());
+      setEndDate(new Date());
+      document.getElementById("my_modal_1").close();
+      return;
+    }
+    axios
+      .patch(`/bookings/${bookingToBeModified._id}`, {
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+      })
+      .then((res) => {
+        swal("Your booking date has been modified!");
+        console.log(res.data);
+        setAllToDefault();
+        // Close modal
+        document.getElementById("my_modal_1").close();
+        setChangeToReload(!changeToReload);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
-  const handleDateChange = (bookingId, carId) => {
+  const handleDateChange = (bookingId) => {
+    setLoading(true);
     const booking = myBookings.find((b) => b._id === bookingId);
     setBookingToBeModified(booking);
+    setStartDate(new Date(booking.startDate));
+    setEndDate(new Date(booking.endDate));
+    const carId = booking.carId;
 
-    document.getElementById("my_modal_1").showModal();
+    axios
+      .get(`/cars/${carId}/bookings`)
+      .then((bookings) => {
+        const booked = [];
+        bookings.data.forEach((booking) => {
+          const dates = getDatesBetween(booking.startDate, booking.endDate);
+          booked.push(...dates);
+        });
 
-    axios.get(`/cars/${carId}/bookings`).then((bookings) => {
-      const booked = [];
-      console.log("Bookings data:", bookings.data); // Testing purpose
-      bookings.data.forEach((booking) => {
-        const dates = getDatesBetween(booking.startDate, booking.endDate);
-        booked.push(...dates);
+        const thisBookingDates = getDatesBetween(
+          booking?.startDate,
+          booking?.endDate,
+        );
+        // Remove the dates of the booking that is being modified
+        const filteredBooked = booked.filter(
+          (date) => !thisBookingDates.includes(date),
+        );
+
+        // Set booked dates excluding the dates of the booking being modified
+        setBookedDates(filteredBooked);
+      })
+      .then(() => {
+        document.getElementById("my_modal_1").showModal();
+        setLoading(false);
       });
-
-      const thisBookingDates = getDatesBetween(
-        bookingToBeModified?.startDate,
-        bookingToBeModified?.endDate,
-      );
-      // Remove the dates of the booking that is being modified
-      const filteredBooked = booked.filter(
-        (date) => !thisBookingDates.includes(date),
-      );
-      // Set booked dates excluding the dates of the booking being modified
-      setBookedDates(filteredBooked);
-    });
   };
-
-  // Testing purpose
-  console.log("Booked dates:", bookedDates);
-
-  console.log("Booking:", bookingToBeModified); // Testing purpose
 
   return (
     <div className="w-full bg-base-300 min-h-screen my-0">
@@ -155,7 +206,12 @@ const MyBookings = () => {
                     </td>
                     <td>
                       <p className="opacity-80 text-base font-medium text-primary">
-                        {booking.totalCost} Taka
+                        {getTotalCost(
+                          booking.startDate,
+                          booking.endDate,
+                          booking.dailyRentalPrice,
+                        )}{" "}
+                        Taka
                       </p>
                     </td>
                     <td>
@@ -174,9 +230,7 @@ const MyBookings = () => {
                           Cancel
                         </button>
                         <button
-                          onClick={() =>
-                            handleDateChange(booking._id, booking.carId)
-                          }
+                          onClick={() => handleDateChange(booking._id)}
                           className={`btn ${booking.status === "cancelled" && "btn-disabled"} btn-xs btn-primary w-22`}
                         >
                           Modify Date
@@ -214,7 +268,7 @@ const MyBookings = () => {
             <div className="flex flex-col gap-2">
               <h6 className="text-lg font-medium">Start date:</h6>
               <DatePicker
-                selected={bookingToBeModified?.startDate}
+                selected={startDate}
                 minDate={new Date()}
                 maxDate={new Date().setTime(
                   new Date().getTime() + 10 * 24 * 60 * 60 * 1000,
@@ -226,7 +280,7 @@ const MyBookings = () => {
             <div className="flex flex-col gap-2">
               <h6 className="text-lg font-medium">End date:</h6>
               <DatePicker
-                selected={bookingToBeModified?.endDate}
+                selected={endDate}
                 onChange={(date) => setEndDate(date)}
                 minDate={startDate}
                 maxDate={new Date().setTime(
@@ -238,7 +292,10 @@ const MyBookings = () => {
           </div>
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn btn-circle btn-ghost absolute right-3 top-3 h-5 w-5">
+              <button
+                className="btn btn-circle btn-ghost absolute right-3 top-3 h-5 w-5"
+                onClick={setAllToDefault}
+              >
                 X
               </button>
             </form>

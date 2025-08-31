@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 const CarDetails = () => {
   const [car, setCar] = useState();
-  const { setLoading, getDatesBetween, isAvailable, isValid } =
+  const { setLoading, getDatesBetween, getTotalCost, isAvailable, isValid } =
     useContext(DataContext);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -42,16 +42,12 @@ const CarDetails = () => {
   // Handle booking
   const handleBooking = () => {
     startDate.setHours(0, 0, 0, 0);
-    endDate.setHours(23, 59, 59, 999);
+    endDate.setHours(0, 0, 0, 0);
     const booking = {
       carId: car?._id,
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
-      totalCost:
-        Math.floor(
-          (endDate.getTime() - startDate.getTime() + 1 * 24 * 60 * 60 * 1000) /
-            (24 * 60 * 60 * 1000),
-        ) * car?.dailyRentalPrice,
+      dailyRentalPrice: car?.dailyRentalPrice,
       status: "pending",
       createdAt: new Date().toISOString(),
     };
@@ -187,13 +183,11 @@ const CarDetails = () => {
             </div>
             <h6 className="text-lg font-medium">
               Total cost:{" "}
-              {getDatesBetween(startDate.toISOString(), endDate.toISOString())
-                .length > 0
-                ? getDatesBetween(
-                    startDate.toISOString(),
-                    endDate.toISOString(),
-                  ).length * car?.dailyRentalPrice
-                : 0}
+              {getTotalCost(
+                startDate.toISOString(),
+                endDate.toISOString(),
+                car?.dailyRentalPrice,
+              )}
               /- Taka
             </h6>
           </div>
