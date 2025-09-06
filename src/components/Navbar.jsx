@@ -31,7 +31,7 @@ const Navbar = ({ themeToggle }) => {
   );
 
   return (
-    <div className="w-full bg-base-200/80 sticky top-0 z-40">
+    <div className="w-full bg-base-200/70 sticky top-0 z-40 backdrop-blur-sm">
       <nav className="navbar shadow-sm w-360 max-w-full mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
