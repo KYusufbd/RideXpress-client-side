@@ -76,3 +76,10 @@
 .navbar .active {
   background-color: var(--color-accent);
 }
+
+.banner-video {
+  object-position: center;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
