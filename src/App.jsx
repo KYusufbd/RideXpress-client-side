@@ -23,7 +23,7 @@ function App() {
   return (
     <div data-theme={theme}>
       <Navbar themeToggle={themeToggle} />
-      <main className="min-h-screen relative">
+      <main className="relative">
         <Outlet />
         <ToastContainer />
         {loading && (

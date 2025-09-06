@@ -5,7 +5,10 @@ const Footer = () => {
   return (
     <footer className="bg-base-100 text-base-content w-full">
       <div className="flex flex-row flex-wrap items-center justify-center md:justify-between p-3 w-240 max-w-full mx-auto gap-4">
-        <Link to='/' className="flex flex-row justify-center items-center py-4 gap-4">
+        <Link
+          to="/"
+          className="flex flex-row justify-center items-center py-4 gap-4"
+        >
           <div className="h-12">
             <img src="/logo-wheel.png" alt="Logo" className="h-full" />
           </div>
@@ -27,7 +30,11 @@ const Footer = () => {
                 className="h-full"
               />
             </Link>
-            <Link to="https://www.instagram.com" target="_blank" className="h-8">
+            <Link
+              to="https://www.instagram.com"
+              target="_blank"
+              className="h-8"
+            >
               <img
                 src="./icons/instagram.png"
                 alt="instagram-icon"
