@@ -1,18 +1,42 @@
 import { Link } from "react-router";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "motion/react";
+import { Typewriter } from "react-simple-typewriter";
 
 const Banner = () => {
   return (
     <div className="w-full h-screen overflow-hidden relative">
       <div className="h-full w-full flex flex-col gap-12 items-center justify-center z-20 relative">
-        <h5 className="text-6xl italic text-center font-semibold text-primary-content backdrop-brightness-50 w-120 p-4 rounded-lg">
-          Hit the Road with Freedom!
-        </h5>
-        <Link
-          className="rounded-full bg-linear-to-b from-primary to-blue-500/50 text-primary-content px-6 py-2 text-lg hover:text-xl font-medium shadow-blue-500/80 shadow-lg hover:shadow-blue-500/50 transition-shadow duration-300"
-          to="/cars"
-        >
-          View Available Cars
-        </Link>
+        <div className="flex flex-col items-center justify-between h-60">
+          <h5 className="text-6xl italic text-center font-semibold text-primary-content backdrop-brightness-50 w-120 p-4 rounded-lg">
+            <Typewriter
+              words={[
+                "Welcome to RideXpress",
+                "Your Journey Begins Here",
+                "Hit the Road with Freedom!",
+              ]}
+              loop={0}
+              cursor
+              cursorStyle="|"
+              typeSpeed={70}
+              deleteSpeed={50}
+              delaySpeed={1000}
+            />
+          </h5>
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1 }}
+            whileHover={{ scale: 1.05 }}
+          >
+            <Link
+              className="rounded-full bg-linear-to-b from-primary to-blue-500/50 text-primary-content px-6 py-2 text-lg hover:text-xl font-medium shadow-blue-500/80 shadow-lg hover:shadow-blue-500/50 transition-shadow duration-300"
+              to="/cars"
+            >
+              View Available Cars
+            </Link>
+          </motion.div>
+        </div>
       </div>
       <div className="absolute top-0 left-0 w-full h-full z-10 overflow-hidden">
         <video
