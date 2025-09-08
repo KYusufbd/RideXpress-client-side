@@ -17,28 +17,52 @@ const WhyToChooseUs = () => {
         </h2>
       </motion.button>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-240 max-w-full mx-auto">
-        <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+        <motion.button
+          initial={{ scale: 0.8 }}
+          whileInView={{ scale: 1 }}
+          transition={{ duration: 1 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        >
           <CardWCR
             icon="/icons/car.png"
             heading="Wide Variety of Cars"
             desc="From budget-friendly rides for daily commutes to luxury cars for special occasions — we’ve got something for everyone."
           />
         </motion.button>
-        <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+        <motion.button
+          initial={{ scale: 0.8 }}
+          whileInView={{ scale: 1 }}
+          transition={{ duration: 1 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        >
           <CardWCR
             icon="/icons/money.png"
             heading="Affordable Prices"
             desc="Competitive pricing with no hidden fees. Enjoy transparent rates and great value for your money."
           />
         </motion.button>
-        <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+        <motion.button
+          initial={{ scale: 0.8 }}
+          whileInView={{ scale: 1 }}
+          transition={{ duration: 1 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        >
           <CardWCR
             icon="/icons/booking.png"
             heading="Easy Booking Process"
             desc="Reserve your car in just a few clicks with our user-friendly platform. Fast, secure, and hassle-free."
           />
         </motion.button>
-        <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+        <motion.button
+          initial={{ scale: 0.8 }}
+          whileInView={{ scale: 1 }}
+          transition={{ duration: 1 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        >
           <CardWCR
             icon="/icons/phone-call.png"
             heading="24/7 Customer Support"
