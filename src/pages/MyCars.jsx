@@ -122,7 +122,7 @@ const MyCars = () => {
     <div className="w-full bg-base-300 min-h-screen my-0">
       <div className="w-360 max-w-full mx-auto flex flex-col gap-4 pb-4">
         {/* Top bar */}
-        <div className="flex flex-row flex-wrap gap-2 justify-between p-3 bg-base-100">
+        <div className="flex flex-row flex-wrap gap-2 justify-between p-3 bg-secondary/5">
           <h1 className="text-3xl font-bold text-secondary text-center">
             My Cars
           </h1>

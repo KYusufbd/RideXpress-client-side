@@ -27,10 +27,10 @@ const Banner = () => {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 1 }}
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.1 }}
           >
             <Link
-              className="rounded-full bg-linear-to-b from-primary to-blue-500/50 text-primary-content px-6 py-2 text-lg hover:text-xl font-medium shadow-blue-500/80 shadow-lg hover:shadow-blue-500/50 transition-shadow duration-300"
+              className="rounded-full bg-linear-to-b from-primary to-blue-500/50 text-primary-content px-6 py-2 text-lg font-medium shadow-blue-500/80 shadow-lg"
               to="/cars"
             >
               View Available Cars

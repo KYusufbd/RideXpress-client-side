@@ -40,15 +40,15 @@ const AddCar = () => {
       });
   };
   return (
-    <div>
+    <div className="w-full min-h-screen flex flex-col bg-base-300">
       {/* Top bar */}
-      <div className="flex flex-row flex-wrap gap-5 justify-start p-3 bg-base-100">
+      <div className="flex flex-row flex-wrap gap-5 justify-start p-3 bg-secondary/5">
         <h1 className="text-3xl font-bold text-secondary text-center">
           Add Car
         </h1>
       </div>
       {/* Add car form */}
-      <div className="flex flex-col items-center justify-start py-6 w-full bg-base-300 min-h-screen my-0">
+      <div className="flex flex-col items-center justify-start py-6 w-full min-h-screen my-0">
         <form
           onSubmit={addCar}
           className="card bg-base-100 flex flex-col gap-3 w-120 max-w-full shadow-sm p-6"

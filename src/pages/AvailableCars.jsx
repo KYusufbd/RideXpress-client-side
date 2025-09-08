@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "motion/react";
 import DataContext from "../contexts/DataContext";
 import { HiViewGrid } from "react-icons/hi";
 import { HiViewList } from "react-icons/hi";
@@ -37,10 +39,10 @@ const AvailableCars = () => {
   };
 
   return (
-    <div className="w-full bg-base-300 min-h-screen my-0">
+    <div className="w-full bg-secondary/5 min-h-screen my-0">
       <div className="w-360 max-w-full mx-auto flex flex-col gap-4 pb-4">
         {/* Top bar */}
-        <div className="flex flex-row flex-wrap gap-2 justify-between p-3 bg-base-100">
+        <div className="flex flex-row flex-wrap gap-2 justify-between p-3">
           <h1 className="text-3xl font-bold text-secondary text-center">
             All Available Cars
           </h1>
@@ -100,44 +102,57 @@ const AvailableCars = () => {
 
         {/* Cars list */}
         {!listView && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 px-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-3">
             {cars?.map((car) => {
               return (
-                <div
-                  key={car._id}
-                  className="rounded-lg overflow-hidden shadow-2xl flex flex-col bg-base-100"
+                <motion.button
+                  initial={{ scale: 0.75 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 1 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onHoverStart={() => console.log("hover started!")}
                 >
-                  <div>
-                    <img
-                      src={car.imageUrl}
-                      alt={car.model}
-                      className="w-full"
-                    />
-                  </div>
-                  <div className="px-2 py-3 flex flex-col text-primary justify-between h-full gap-6">
-                    <div className="flex flex-col gap-1">
-                      <h4 className="text-xl font-medium">{car.model}</h4>
-                      <p className="opacity-70">Location: {car.location}</p>
-                      <div className="flex flex-row justify-between items-baseline flex-wrap gap-2">
-                        {car.availability ? (
-                          <div className="btn btn-success w-fit px-2 h-6 mt-2">
-                            Avilable
-                          </div>
-                        ) : (
-                          <div className="btn btn-warning w-fit px-2 h-6 mt-2">
-                            Not Available
-                          </div>
-                        )}
-                        <p className="font-medium text-secondary">
-                          {car.dailyRentalPrice}/- Taka/day
-                        </p>
-                      </div>
+                  <div
+                    key={car._id}
+                    className="rounded-lg overflow-hidden shadow-2xl flex flex-col bg-primary/5 h-full"
+                  >
+                    {/* Image div */}
+                    <div>
+                      <img
+                        src={car.imageUrl}
+                        alt={car.model}
+                        className="w-full"
+                      />
                     </div>
-                    <Link to={`/cars/${car._id}`} className="btn btn-primary">
-                      Book Now
-                    </Link>
+                    {/* Info div */}
+                    <div className="px-2 py-3 flex flex-col text-primary justify-between h-full gap-5">
+                      <div className="flex flex-col gap-8 px-2 h-full justify-between">
+                        <div className="flex flex-col w-full gap-2">
+                          <h4 className="text-xl font-medium">{car.model}</h4>
+                          <p className="opacity-70">Location: {car.location}</p>
+                        </div>
+                        <div className="flex flex-row justify-between items-baseline flex-wrap gap-2">
+                          {car.availability ? (
+                            <div className="btn btn-success w-fit px-2 h-6 mt-2">
+                              Avilable
+                            </div>
+                          ) : (
+                            <div className="btn btn-warning w-fit px-2 h-6 mt-2">
+                              Not Available
+                            </div>
+                          )}
+                          <p className="font-medium text-secondary">
+                            {car.dailyRentalPrice}/- Taka/day
+                          </p>
+                        </div>
+                      </div>
+                      <Link to={`/cars/${car._id}`} className="btn btn-primary">
+                        Book Now
+                      </Link>
+                    </div>
                   </div>
-                </div>
+                </motion.button>
               );
             })}
           </div>
