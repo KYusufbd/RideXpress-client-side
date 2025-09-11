@@ -106,17 +106,14 @@ const AvailableCars = () => {
             {cars?.map((car) => {
               return (
                 <motion.button
+                  key={car._id}
                   initial={{ scale: 0.75 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 1 }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onHoverStart={() => console.log("hover started!")}
                 >
-                  <div
-                    key={car._id}
-                    className="rounded-lg overflow-hidden shadow-2xl flex flex-col bg-primary/5 h-full"
-                  >
+                  <div className="rounded-lg overflow-hidden shadow-2xl flex flex-col bg-primary/5 h-full">
                     {/* Image div */}
                     <div>
                       <img

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 
 const DataProvider = ({ children }) => {
   const [cars, setCars] = useState([]);
+  const [recentCars, setRecentCars] = useState([]);
   const [myCars, setMyCars] = useState([]);
   const [myBookings, setMyBookings] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -60,6 +61,8 @@ const DataProvider = ({ children }) => {
   const data = {
     cars,
     setCars,
+    recentCars,
+    setRecentCars,
     myCars,
     setMyCars,
     myBookings,

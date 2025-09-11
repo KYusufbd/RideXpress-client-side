@@ -14,7 +14,7 @@
     "axios": "^1.8.4",
     "dotenv": "^16.4.7",
     "firebase": "^11.4.0",
-    "luxon": "^3.6.1",
+    "luxon": "^3.7.2",
     "motion": "^12.23.12",
     "react": "^19.0.0",
     "react-datepicker": "^8.3.0",
