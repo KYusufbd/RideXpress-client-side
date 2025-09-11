@@ -41,7 +41,7 @@ const Recent = () => {
       </motion.button>
 
       {/* Recent cars grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-3">
         {recentCars?.map((car) => {
           return (
             <motion.button
@@ -52,15 +52,19 @@ const Recent = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className="rounded-lg overflow-hidden shadow-2xl flex flex-col bg-primary/5 h-full">
-                {/* Image div */}
-                <div>
-                  <img src={car.imageUrl} alt={car.model} className="w-full" />
-                </div>
-                {/* Info div */}
-                <div className="px-2 py-3 flex flex-col text-primary justify-between h-full gap-5">
-                  <div className="flex flex-col gap-8 px-2 h-full justify-between">
-                    <div className="flex flex-col w-full gap-2">
+              <Link to={`/cars/${car._id}`}>
+                <div className="rounded-lg overflow-hidden shadow-2xl flex flex-col bg-primary/5 h-full">
+                  {/* Image div */}
+                  <div>
+                    <img
+                      src={car.imageUrl}
+                      alt={car.model}
+                      className="w-full"
+                    />
+                  </div>
+                  {/* Info div */}
+                  <div className="flex flex-col text-primary justify-center h-full">
+                    <div className="flex flex-col w-full gap-2 py-6 px-4 items-center">
                       <h4 className="text-xl font-medium">{car.model}</h4>
                       <p className="opacity-70">
                         Date Posted:{" "}
@@ -71,27 +75,22 @@ const Recent = () => {
                       <p className="opacity-70">
                         Booking Count: {car.bookingCount}
                       </p>
-                    </div>
-                    <div className="flex flex-row justify-between items-baseline flex-wrap gap-2">
-                      {car.availability ? (
-                        <div className="btn btn-success w-fit px-2 h-6 mt-2">
-                          Avilable
-                        </div>
-                      ) : (
-                        <div className="btn btn-warning w-fit px-2 h-6 mt-2">
-                          Not Available
-                        </div>
-                      )}
                       <p className="font-medium text-secondary">
                         {car.dailyRentalPrice}/- Taka/day
                       </p>
+                      {car.availability ? (
+                        <div className="btn btn-success w-fit px-2 h-6 mt-3">
+                          Avilable
+                        </div>
+                      ) : (
+                        <div className="btn btn-warning w-fit px-2 h-6 mt-3">
+                          Not Available
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <Link to={`/cars/${car._id}`} className="btn btn-primary">
-                    Book Now
-                  </Link>
                 </div>
-              </div>
+              </Link>
             </motion.button>
           );
         })}
