@@ -31,7 +31,7 @@ const Navbar = ({ themeToggle }) => {
   );
 
   return (
-    <div className="w-full bg-primary/30 sticky top-0 z-40 backdrop-blur-lg">
+    <div className="w-full bg-primary-content/60 sticky top-0 z-40 backdrop-blur-lg">
       <nav className="navbar shadow-sm w-360 max-w-full mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -54,7 +54,7 @@ const Navbar = ({ themeToggle }) => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-lg dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow text-primary"
+              className="menu menu-lg dropdown-content bg-primary-content/90 rounded-box z-1 mt-3 w-52 p-2 shadow text-primary"
             >
               {navMenu}
             </ul>
