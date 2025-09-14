@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
 import DataContext from "../contexts/DataContext";
@@ -11,9 +11,15 @@ import { BiSortAlt2 } from "react-icons/bi";
 const AvailableCars = () => {
   const { cars, setCars, loading, setLoading, listView, setListView } =
     useContext(DataContext);
-  const [query, setQuery] = useState("");
+  const location = useLocation();
+  const [query, setQuery] = useState(location.state?.location || "");
   const [sortBy, setSortBy] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
+  const [pageTitle, setPageTitle] = useState(
+    location.state?.location
+      ? `Cars In ${location.state.location}`
+      : "All Available Cars",
+  );
 
   // Fetch cars data
   useEffect(() => {
@@ -34,8 +40,16 @@ const AvailableCars = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, sortBy, sortOrder]);
 
+  // Function to toggle view
   const viewToggle = () => {
     setListView(!listView);
+  };
+
+  // Function to clear state location query
+  const clearLocationQuery = () => {
+    setQuery("");
+    setPageTitle("All Available Cars");
+    location.state = {};
   };
 
   return (
@@ -43,9 +57,19 @@ const AvailableCars = () => {
       <div className="w-360 max-w-full mx-auto flex flex-col gap-4 pb-4">
         {/* Top bar */}
         <div className="flex flex-row flex-wrap gap-2 justify-between p-3">
-          <h1 className="text-3xl font-bold text-secondary text-center">
-            All Available Cars
-          </h1>
+          <div className="flex flex-row gap-6 items-center">
+            <h1 className="text-3xl font-bold text-secondary text-center">
+              {pageTitle}
+            </h1>
+            {location.state?.location && (
+              <button
+                className="btn-link hover:text-warning cursor-pointer"
+                onClick={clearLocationQuery}
+              >
+                See All
+              </button>
+            )}
+          </div>
           <div className="flex flex-row w-full sm:w-fit justify-between gap-2">
             <input
               type="text"
