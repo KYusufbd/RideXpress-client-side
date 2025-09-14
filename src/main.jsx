@@ -17,9 +17,11 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
 
 // Set base URL of Axios
-axios.defaults.baseURL = "http://localhost:5000/";
+axios.defaults.baseURL =
+  "https://ridexpress-server-side.vercel.app/";
 // Set Axios withCredentials to true by default
 axios.defaults.withCredentials = true;
+axios.defaults.headers.post["Content-Type"] = "application/json";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
