@@ -1,7 +1,3 @@
-Perfect 👍 Here’s the updated **README.md** content with a **Screenshots section** included:
-
----
-
 # 🚗 RideXpress
 
 RideXpress is a **car rental system** built with the MERN stack, designed to make car booking seamless, secure, and user-friendly. Whether you need a ride for a day or a week, RideXpress connects you with a wide variety of vehicles at affordable prices.
