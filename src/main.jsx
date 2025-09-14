@@ -14,6 +14,7 @@ import AuthProvider from "./firebase/AuthProvider.jsx";
 import DataProvider from "./components/DataProvider.jsx";
 import axios from "axios";
 import PrivateRoute from "./components/PrivateRoute.jsx";
+import ErrorPage from "./pages/ErrorPage.jsx";
 
 // Set base URL of Axios
 axios.defaults.baseURL = "http://localhost:5000/";
@@ -56,6 +57,7 @@ createRoot(document.getElementById("root")).render(
                 }
               />
             </Route>
+            <Route path="*" element={<ErrorPage />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
